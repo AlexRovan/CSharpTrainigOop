@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RangeTask
 {
@@ -23,88 +21,52 @@ namespace RangeTask
 
         public bool IsInside(double number)
         {
-            return number > From && number < To;
+            return number >= From && number <= To;
         }
 
-        public Range GetRangeIntersection(double From, double To)
+        public Range GetIntersection(Range range)
         {
-            if (this.To <= From || this.From >= To)
+            if (To <= range.From || From >= range.To)
             {
                 return null;
             }
 
-            if (this.From < From && this.To < To)
-            {
-                return new Range(From, this.To);
-            }
-
-            if (this.From > From && this.To > To)
-            {
-                return new Range(this.From, To);
-            }
-
-            if (this.From > From && this.To < To)
-            {
-                return new Range(this.From, this.To);
-            }
-
-            return new Range(From, To);
+            return new Range(Math.Max(From, range.From), Math.Min(range.To, To));
         }
 
-        public Range[] GetRangeSum(double From, double To)
+        public Range[] GetUnion(Range range)
         {
-
-            if (this.From <= From && this.To >= From)
+            if (To < range.From || From > range.To)
             {
-                if (this.To <= To)
-                {
-                    return new[] { new Range(this.From, To) };
-                }
-
-                return new[] { new Range(this.From, this.To) };
+                return new[] { new Range(range.From, range.To), new Range(From, To) };
             }
 
-            if (this.From >= From && To >= this.From)
-            {
-                if (To <= this.To)
-                {
-                    return new[] { new Range(From, this.To) };
-                }
+            return new[] { new Range(Math.Min(From, range.From), Math.Max(range.To, To)) };
+        }
 
+        public Range[] GetDifference(Range range)
+        {
+            if (range.To < From || range.From > To)
+            {
                 return new[] { new Range(From, To) };
             }
 
-            return new[] { new Range(this.From, this.To), new Range(From, To) };
-        }
-
-        public Range[] GetRangeDifference(double From, double To)
-        {
-            if (this.From == From && this.To == To)
+            if (range.From <= From && range.To >= To)
             {
-                return null;
+                return new Range[] { };
             }
 
-            if (this.From <= From && this.To >= From)
+            if (range.From < From && range.To < To)
             {
-                if (this.To <= To)
-                {
-                    return new[] { new Range(this.From, From) };
-                }
-
-                return new[] { new Range(this.From, From), new Range(To, this.To) };
+                return new[] { new Range(range.To, To) };
             }
 
-            if (this.From >= From && To >= this.From)
+            if (From < range.From && To < range.To)
             {
-                if (To <= this.To)
-                {
-                    return new[] { new Range(To, this.To) };
-                }
-
-                return new[] { new Range(From, this.From), new Range(this.To, To) };
+                return new[] { new Range(From, range.From) };
             }
 
-            return new[] { new Range(this.From, this.To) };
+            return new[] { new Range(From, range.From), new Range(range.To, To) };
         }
     }
 }

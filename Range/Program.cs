@@ -68,7 +68,8 @@ namespace RangeTask
                             Console.Write("Введите окончание второго ряда: ");
                             double rangeTo = Convert.ToDouble(Console.ReadLine());
 
-                            Range rangeIntersection = mainRange.GetRangeIntersection(rangeFrom, rangeTo);
+                            Range newRange = new Range(rangeFrom, rangeTo);
+                            Range rangeIntersection = mainRange.GetIntersection(newRange);
 
                             if (rangeIntersection is null)
                             {
@@ -91,8 +92,10 @@ namespace RangeTask
 
                             Console.Write("Введите окончание второго ряда: ");
                             double rangeTo = Convert.ToDouble(Console.ReadLine());
-
-                            Range[] rangeSum = mainRange.GetRangeSum(rangeFrom, rangeTo);
+                            
+                            Range newRange = new Range(rangeFrom, rangeTo);
+                            Range[] rangeSum = mainRange.GetUnion(newRange);
+                            
                             Console.Write($"Сумма интервалов равна: ");
 
                             foreach (Range e in rangeSum)
@@ -112,11 +115,11 @@ namespace RangeTask
 
                             Console.Write("Введите окончание второго ряда: ");
                             double rangeTo = Convert.ToDouble(Console.ReadLine());
+                            
+                            Range newRange = new Range(rangeFrom, rangeTo);
+                            Range[] rangeDifference = mainRange.GetDifference(newRange);
 
-                            Range[] rangeDifference = mainRange.GetRangeDifference(rangeFrom, rangeTo);
-
-
-                            if (rangeDifference is null)
+                            if (rangeDifference.Length == 0)
                             {
                                 Console.WriteLine("Разность равна нулю");
                             }
