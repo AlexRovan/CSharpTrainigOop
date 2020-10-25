@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RangeTask
 {
@@ -24,10 +20,10 @@ namespace RangeTask
                 Console.WriteLine("1 - получить сумму ряда.");
                 Console.WriteLine("2 - проверить вхождение числа.");
                 Console.WriteLine("3 - полученить интервала-пересечение двух интервалов");
-                Console.WriteLine("4 - получить объединения двух интервалов");
+                Console.WriteLine("4 - получить объединение двух интервалов");
                 Console.WriteLine("5 - полученить разность двух интервалов.");
                 Console.WriteLine("0 - выход.");
-                Console.Write("Выберете операцию операцию: ");
+                Console.Write("Выберете операцию : ");
 
                 int operation = Convert.ToInt32(Console.ReadLine());
 

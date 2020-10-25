@@ -5,7 +5,6 @@ namespace RangeTask
     class Range
     {
         public double From { get; set; }
-
         public double To { get; set; }
 
         public Range(double from, double to)
