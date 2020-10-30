@@ -15,7 +15,7 @@ namespace ArrayListHomeTask
 
             List<int> integerList1 = new List<int> { 1, 2, 3, 3, 4, 5, 6, 7, 8, 8, 8, 9, 9, 10 };
 
-            DeleteEvenNumbersFromList(integerList1);
+            DeleteOddNumbersFromList(integerList1);
             Console.WriteLine("Список без нечётых чисел");
             PrintList(integerList1);
 
@@ -41,7 +41,7 @@ namespace ArrayListHomeTask
             return fileLines;
         }
 
-        public static void DeleteEvenNumbersFromList(List<int> integerList)
+        public static void DeleteOddNumbersFromList(List<int> integerList)
         {
             for (int i = 0; i < integerList.Count; i++)
             {
