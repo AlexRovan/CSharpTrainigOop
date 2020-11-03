@@ -40,7 +40,7 @@ namespace VectorTask
             {
                 VectorElements[i] = array[i];
             }
-        }  
+        }
 
         public int GetSize()
         {
@@ -51,10 +51,10 @@ namespace VectorTask
         {
             if (VectorElements.Length < vector.VectorElements.Length)
             {
-                CastVectorsToSameDimension(this, vector);
+                IncreaseVectorLentghWithzeros(this, vector.VectorElements.Length);
             }
 
-            for (int i = 0; i < vector.VectorElements.Length; i++)
+            for (int i = 0; i < VectorElements.Length; i++)
             {
                 VectorElements[i] = vector.VectorElements[i] + VectorElements[i];
             }
@@ -64,12 +64,12 @@ namespace VectorTask
         {
             if (VectorElements.Length < vector.VectorElements.Length)
             {
-                CastVectorsToSameDimension(this, vector);
+                IncreaseVectorLentghWithzeros(this, vector.VectorElements.Length);
             }
 
-            for (int i = 0; i < vector.VectorElements.Length; i++)
+            for (int i = 0; i < VectorElements.Length; i++)
             {
-                VectorElements[i] =  VectorElements[i] - vector.VectorElements[i] ;
+                VectorElements[i] = VectorElements[i] - vector.VectorElements[i];
             }
         }
 
@@ -77,10 +77,22 @@ namespace VectorTask
         {
             if (VectorElements.Length < vector.VectorElements.Length)
             {
-                CastVectorsToSameDimension(this, vector);
+                IncreaseVectorLentghWithzeros(this, vector.VectorElements.Length);
+            }
+            else
+            {
+                Vector copiedVector = new Vector(vector);
+                IncreaseVectorLentghWithzeros(copiedVector, VectorElements.Length);
+
+                for (int i = 0; i < VectorElements.Length; i++)
+                {
+                    VectorElements[i] = copiedVector.VectorElements[i] * VectorElements[i];
+                }
+
+                return;
             }
 
-            for (int i = 0; i < vector.VectorElements.Length; i++)
+            for (int i = 0; i < VectorElements.Length; i++)
             {
                 VectorElements[i] = vector.VectorElements[i] * VectorElements[i];
             }
@@ -123,7 +135,7 @@ namespace VectorTask
                 return true;
             }
 
-            if (ReferenceEquals(obj, null) || obj.GetType() != this.GetType())
+            if (ReferenceEquals(obj, null) || obj.GetType() != GetType())
             {
                 return false;
             }
@@ -148,80 +160,43 @@ namespace VectorTask
             return hash;
         }
 
-        public static void CastVectorsToSameDimension(Vector vector1, Vector vector2)
-        {       
-            if (vector1.VectorElements.Length < vector2.VectorElements.Length)
+        private static void IncreaseVectorLentghWithzeros(Vector vector1, int length)
+        {
+            Vector copiedVector = new Vector(vector1);
+            vector1.VectorElements = new double[length];
+
+            for (int i = 0; i < length; i++)
             {
-                Vector copiedVector = new Vector(vector1);
-                vector1.VectorElements = new double[vector2.VectorElements.Length];
-
-                for (int i = 0; i < vector2.VectorElements.Length; i++)
+                if (i < copiedVector.VectorElements.Length)
                 {
-                    if (i < copiedVector.VectorElements.Length)
-                    {
-                        vector1.VectorElements[i] = copiedVector.VectorElements[i];
-                        continue;
-                    }
-
-                    vector1.VectorElements[i] = 0;
+                    vector1.VectorElements[i] = copiedVector.VectorElements[i];
+                    continue;
                 }
-            }
-            else if (vector1.VectorElements.Length > vector2.VectorElements.Length)
-            {
-                Vector copiedVector = new Vector(vector2);
-                vector2.VectorElements = new double[vector1.VectorElements.Length];
 
-                for (int i = 0; i < vector1.VectorElements.Length; i++)
-                {
-                    if (i < copiedVector.VectorElements.Length)
-                    {
-                        vector2.VectorElements[i] = copiedVector.VectorElements[i];
-                        continue;
-                    }
-
-                    vector2.VectorElements[i] = 0;
-                }
+                vector1.VectorElements[i] = 0;
             }
         }
 
         public static Vector Addition(Vector vector1, Vector vector2)
         {
-            CastVectorsToSameDimension(vector1, vector2);
-
-            Vector resultVector = new Vector(vector1.VectorElements.Length);
-
-            for (int i = 0; i < vector1.VectorElements.Length; i++)
-            {
-                resultVector.VectorElements[i] = vector1.VectorElements[i] + vector2.VectorElements[i];
-            }
+            Vector resultVector = new Vector(vector1);
+            resultVector.AddVector(vector2);
 
             return resultVector;
         }
 
         public static Vector Subtracting(Vector vector1, Vector vector2)
         {
-            CastVectorsToSameDimension(vector1, vector2);
-
-            Vector resultVector = new Vector(vector1.VectorElements.Length);
-
-            for (int i = 0; i < vector1.VectorElements.Length; i++)
-            {
-                resultVector.VectorElements[i] = vector1.VectorElements[i] - vector2.VectorElements[i];
-            }
+            Vector resultVector = new Vector(vector1);
+            resultVector.SubtractionVector(vector2);
 
             return resultVector;
         }
 
         public static Vector ScalarMultiplication(Vector vector1, Vector vector2)
-        {         
-            CastVectorsToSameDimension(vector1, vector2);
-
-            Vector resultVector = new Vector(vector1.VectorElements.Length);
-
-            for (int i = 0; i < vector1.VectorElements.Length; i++)
-            {
-                resultVector.VectorElements[i] = vector1.VectorElements[i] * vector2.VectorElements[i];
-            }
+        {
+            Vector resultVector = new Vector(vector1);
+            resultVector.ScalarMultiplication(vector2);
 
             return resultVector;
         }
