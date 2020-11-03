@@ -1,4 +1,5 @@
 ﻿using System;
+using ShapeTask.Comparators;
 
 namespace ShapeTask
 {
@@ -13,14 +14,14 @@ namespace ShapeTask
             Console.WriteLine($"Периметр - {shape.GetPerimeter()}");
         }
         
-        public static IShape GetShapeByNumberAreaSize(IShape[] shapeArray, int number = 0)
+        public static IShape GetShapeByNumberAreaSize(IShape[] shapeArray, int number)
         {
             Array.Sort(shapeArray, new ShapeAreaComparer());
 
             return shapeArray[number];
         }
 
-        public static IShape GetShapeByNumberPerimterSize(IShape[] shapeArray, int number = 0)
+        public static IShape GetShapeByNumberPerimeterSize(IShape[] shapeArray, int number)
         {
             Array.Sort(shapeArray, new ShapePerimeterComparer());
 
