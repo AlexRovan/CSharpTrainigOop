@@ -5,6 +5,7 @@ namespace RangeTask
     class Range
     {
         public double From { get; set; }
+
         public double To { get; set; }
 
         public Range(double from, double to)
@@ -55,12 +56,12 @@ namespace RangeTask
                 return new Range[] { };
             }
 
-            if (range.From < From && range.To < To)
+            if (range.From <= From && range.To < To)
             {
                 return new[] { new Range(range.To, To) };
             }
 
-            if (From < range.From && To < range.To)
+            if (From < range.From && To <= range.To)
             {
                 return new[] { new Range(From, range.From) };
             }
