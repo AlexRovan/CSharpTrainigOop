@@ -78,8 +78,13 @@ namespace VectorTask
             if (VectorElements.Length < vector.VectorElements.Length)
             {
                 IncreaseVectorLentghWithZeros(this, vector.VectorElements.Length);
+
+                for (int i = 0; i < VectorElements.Length; i++)
+                {
+                    VectorElements[i] = vector.VectorElements[i] * VectorElements[i];
+                }
             }
-            else
+            else if (VectorElements.Length > vector.VectorElements.Length)
             {
                 Vector copiedVector = new Vector(vector);
                 IncreaseVectorLentghWithZeros(copiedVector, VectorElements.Length);
@@ -88,13 +93,13 @@ namespace VectorTask
                 {
                     VectorElements[i] = copiedVector.VectorElements[i] * VectorElements[i];
                 }
-
-                return;
             }
-
-            for (int i = 0; i < VectorElements.Length; i++)
+            else
             {
-                VectorElements[i] = vector.VectorElements[i] * VectorElements[i];
+                for (int i = 0; i < VectorElements.Length; i++)
+                {
+                    VectorElements[i] = vector.VectorElements[i] * VectorElements[i];
+                }
             }
         }
 
