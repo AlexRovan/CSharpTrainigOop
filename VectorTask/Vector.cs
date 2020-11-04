@@ -51,12 +51,12 @@ namespace VectorTask
         {
             if (VectorElements.Length < vector.VectorElements.Length)
             {
-                IncreaseVectorLentghWithzeros(this, vector.VectorElements.Length);
+                IncreaseVectorLentghWithZeros(this, vector.VectorElements.Length);
             }
 
-            for (int i = 0; i < VectorElements.Length; i++)
+            for (int i = 0; i < vector.VectorElements.Length; i++)
             {
-                VectorElements[i] = vector.VectorElements[i] + VectorElements[i];
+                VectorElements[i] = VectorElements[i] + vector.VectorElements[i];
             }
         }
 
@@ -64,10 +64,10 @@ namespace VectorTask
         {
             if (VectorElements.Length < vector.VectorElements.Length)
             {
-                IncreaseVectorLentghWithzeros(this, vector.VectorElements.Length);
+                IncreaseVectorLentghWithZeros(this, vector.VectorElements.Length);
             }
 
-            for (int i = 0; i < VectorElements.Length; i++)
+            for (int i = 0; i < vector.VectorElements.Length; i++)
             {
                 VectorElements[i] = VectorElements[i] - vector.VectorElements[i];
             }
@@ -77,12 +77,12 @@ namespace VectorTask
         {
             if (VectorElements.Length < vector.VectorElements.Length)
             {
-                IncreaseVectorLentghWithzeros(this, vector.VectorElements.Length);
+                IncreaseVectorLentghWithZeros(this, vector.VectorElements.Length);
             }
             else
             {
                 Vector copiedVector = new Vector(vector);
-                IncreaseVectorLentghWithzeros(copiedVector, VectorElements.Length);
+                IncreaseVectorLentghWithZeros(copiedVector, VectorElements.Length);
 
                 for (int i = 0; i < VectorElements.Length; i++)
                 {
@@ -125,7 +125,7 @@ namespace VectorTask
 
         public override string ToString()
         {
-            return $"{string.Join(", ", VectorElements)}";
+            return $"{{{string.Join(", ", VectorElements)}}}";
         }
 
         public override bool Equals(object obj)
@@ -160,20 +160,14 @@ namespace VectorTask
             return hash;
         }
 
-        private static void IncreaseVectorLentghWithzeros(Vector vector1, int length)
+        private static void IncreaseVectorLentghWithZeros(Vector vector, int length)
         {
-            Vector copiedVector = new Vector(vector1);
-            vector1.VectorElements = new double[length];
+            Vector copiedVector = new Vector(vector);
+            vector.VectorElements = new double[length];
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < copiedVector.VectorElements.Length; i++)
             {
-                if (i < copiedVector.VectorElements.Length)
-                {
-                    vector1.VectorElements[i] = copiedVector.VectorElements[i];
-                    continue;
-                }
-
-                vector1.VectorElements[i] = 0;
+                vector.VectorElements[i] = copiedVector.VectorElements[i];
             }
         }
 

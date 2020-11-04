@@ -7,12 +7,16 @@ namespace VectorTask
         static void Main(string[] args)
         {
             Vector vector1 = new Vector(new double[4] { 7.0, 2.0, 3.0, 5.0 });
-            Vector vector2 = new Vector(new double[6] { 3.0, 4.0, 8.0, 11.0, 9.2, -11 });
+            Vector vector2 = new Vector(new double[6] { 3.0, 4.0, 8.0, 11.0, 9.2, 11 });
             Vector vector3 = new Vector(vector2);
+            Vector vector4 = new Vector(new double[4] { 3.0, 1.0, 3.0, 5.0 });
+            Vector vector5 = new Vector(new double[4] { 1.0, 1.0, 2.0, 1.0 }, 10);
 
             Console.WriteLine($"Элементы вектора1 - {vector1}");
             Console.WriteLine($"Элементы вектора2 - {vector2}");
-            Console.WriteLine($"Элементы вектора3 - {vector2}");
+            Console.WriteLine($"Элементы вектора3 - {vector3}");
+            Console.WriteLine($"Элементы вектора4 - {vector4}");
+            Console.WriteLine($"Элементы вектора4 - {vector5}");
             Console.WriteLine();
 
             vector1.AddVector(vector2);
@@ -37,9 +41,9 @@ namespace VectorTask
             Console.WriteLine($"Хэш код вектора3  - {vector3.GetHashCode()}");
 
             Console.WriteLine();
-            Console.WriteLine($"Сумма векторов  - {Vector.Addition(vector1, vector2)}");
-            Console.WriteLine($"Разность вектора - {Vector.Subtracting(vector1, vector2)}");
-            Console.WriteLine($"Произведение векторов - {Vector.ScalarMultiplication(vector1, vector2)}");
+            Console.WriteLine($"Сумма векторов  - {Vector.Addition(vector2, vector4)}");
+            Console.WriteLine($"Разность вектора - {Vector.Subtracting(vector2, vector4)}");
+            Console.WriteLine($"Произведение векторов - {Vector.ScalarMultiplication(vector2, vector4)}");
         }
     }
 }
