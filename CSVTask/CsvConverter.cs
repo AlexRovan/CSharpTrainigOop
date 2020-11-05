@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using System.Linq;
 
 namespace CSVTask
 {
@@ -136,7 +134,7 @@ namespace CSVTask
 
                         if (i == line.Length - 1)
                         {
-                            sb.Append(Environment.NewLine);                          
+                            sb.Append("<br/>");                          
                         }
 
                     }
