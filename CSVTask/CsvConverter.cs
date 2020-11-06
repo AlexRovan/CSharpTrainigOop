@@ -10,142 +10,153 @@ namespace CSVTask
         {
             string htmlString = "<table>";
 
-            using (StreamReader reader = new StreamReader(filePath))
+            try
             {
-                string line;
-                StringBuilder sb = new StringBuilder();
-
-                bool isEscapSymbol = false;
-                bool isEscapCell = false;
-                bool isNewCell = true;
-                bool isNewLine = true;
-
-                while ((line = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader(filePath))
                 {
-                    for (int i = 0; i < line.Length; i++)
-                    {
-                        if (isNewLine)
-                        {
-                            htmlString += "<tr>";
-                            isNewLine = false;
-                        }
+                    string line;
+                    StringBuilder sb = new StringBuilder();
 
-                        if (isNewCell)
+                    bool isEscapSymbol = false;
+                    bool isEscapCell = false;
+                    bool isNewCell = true;
+                    bool isNewLine = true;
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        for (int i = 0; i < line.Length; i++)
                         {
-                            htmlString += "<td>";
-                            if (line[i] == '"')
+                            if (isNewLine)
                             {
-                                isEscapCell = true;
-                                isNewCell = false;
-                                continue;
+                                htmlString += "<tr>";
+                                isNewLine = false;
                             }
 
-                            isNewCell = false;
-                            isEscapCell = false;
-                        }
-
-                        if (!isEscapCell)
-                        {
-                            if (line[i] == ',')
+                            if (isNewCell)
                             {
-                                htmlString += sb.ToString();
-                                sb.Clear();
-                                htmlString += "</td>";
-
-                                isNewCell = true;
-
-                                // последняя пустая ячейка в строке
-                                if (i == line.Length - 1)
+                                htmlString += "<td>";
+                                if (line[i] == '"')
                                 {
-                                    isNewLine = true;
-                                    htmlString += "<td></td></tr>";
+                                    isEscapCell = true;
+                                    isNewCell = false;
+                                    continue;
                                 }
 
+                                isNewCell = false;
+                                isEscapCell = false;
+                            }
+
+                            if (!isEscapCell)
+                            {
+                                if (line[i] == ',')
+                                {
+                                    htmlString += sb.ToString();
+                                    sb.Clear();
+                                    htmlString += "</td>";
+
+                                    isNewCell = true;
+
+                                    // последняя пустая ячейка в строке
+                                    if (i == line.Length - 1)
+                                    {
+                                        isNewLine = true;
+                                        htmlString += "<td></td></tr>";
+                                    }
+
+                                    continue;
+                                }
+
+                                if (i == line.Length - 1)
+                                {
+                                    sb.Append(line[i]);
+                                    htmlString += sb.ToString();
+                                    sb.Clear();
+                                    htmlString += "</td></tr>";
+
+                                    isNewCell = true;
+                                    isNewLine = true;
+
+                                    continue;
+                                }
+
+                                sb.Append(line[i]);
                                 continue;
                             }
 
-                            if (i == line.Length - 1)
+                            if (isEscapSymbol)
                             {
-                                sb.Append(line[i]);
-                                htmlString += sb.ToString();
-                                sb.Clear();
-                                htmlString += "</td></tr>";
+                                if (line[i] == ',')
+                                {
+                                    htmlString += sb.ToString();
+                                    sb.Clear();
+                                    htmlString += "</td>";
 
-                                isNewCell = true;
-                                isNewLine = true;
+                                    isNewCell = true;
+                                    isEscapSymbol = false;
 
+                                    // последняя пустая ячейка в строке
+                                    if (i == line.Length - 1)
+                                    {
+                                        isNewLine = true;
+                                        htmlString += "<td></td></tr>";
+                                    }
+
+                                    continue;
+                                }
+
+                                if (line[i] == '"')
+                                {
+                                    sb.Append(line[i]);
+                                    isEscapSymbol = false;
+                                    continue;
+                                }
+
+                                throw new FormatException("Некорректный CSV файл");
+                            }
+
+                            if (line[i] == '"')
+                            {
+                                if (i == line.Length - 1)
+                                {
+                                    htmlString += sb.ToString();
+                                    sb.Clear();
+
+                                    isNewCell = true;
+                                    isNewLine = true;
+
+                                    htmlString += "</td></tr>";
+                                    continue;
+                                }
+
+                                isEscapSymbol = true;
                                 continue;
                             }
 
                             sb.Append(line[i]);
-                            continue;
-                        }
 
-                        if (isEscapSymbol)
-                        {
-                            if (line[i] == ',')
-                            {
-                                htmlString += sb.ToString();
-                                sb.Clear();
-                                htmlString += "</td>";
-
-                                isNewCell = true;
-                                isEscapSymbol = false;
-
-                                // последняя пустая ячейка в строке
-                                if (i == line.Length - 1)
-                                {
-                                    isNewLine = true;
-                                    htmlString += "<td></td></tr>";
-                                }
-
-                                continue;
-                            }
-
-                            if (line[i] == '"')
-                            {
-                                sb.Append(line[i]);
-                                isEscapSymbol = false;
-                                continue;
-                            }
-
-                            throw new Exception("Некорректный CSV файл");
-                        }
-
-                        if (line[i] == '"')
-                        {
                             if (i == line.Length - 1)
                             {
-                                htmlString += sb.ToString();
-                                sb.Clear();
-                               
-                                isNewCell = true;
-                                isNewLine = true;
-
-                                htmlString += "</td></tr>";
-                                continue;
+                                sb.Append("<br/>");
                             }
 
-                            isEscapSymbol = true;
-                            continue;
                         }
-                        
-                        sb.Append(line[i]);
-
-                        if (i == line.Length - 1)
-                        {
-                            sb.Append("<br/>");                          
-                        }
-
                     }
                 }
-            }
-            htmlString += "</table>";
-            string htmlFilePath = Path.ChangeExtension(filePath, "html");
+                htmlString += "</table>";
+                string htmlFilePath = Path.ChangeExtension(filePath, "html");
 
-            using (StreamWriter writer = new StreamWriter(htmlFilePath))
+                using (StreamWriter writer = new StreamWriter(htmlFilePath))
+                {
+                    writer.WriteLine(htmlString);
+                }
+            }
+            catch (FileNotFoundException)
             {
-                writer.WriteLine(htmlString);
+                Console.WriteLine("CSV файл не найден.");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("CSV файл имеет не корректное содержание.");
             }
         }
     }
