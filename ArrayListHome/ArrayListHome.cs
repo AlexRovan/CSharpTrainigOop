@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace ArrayListHomeTask
 {
@@ -9,19 +8,26 @@ namespace ArrayListHomeTask
     {
         static void Main(string[] args)
         {
-            List<string> fileLines = GetFileLines("..\\..\\..\\example_file.txt");
-            Console.WriteLine("Список из линий файла");
-            PrintList(fileLines);
+            try
+            {
+                List<string> fileLines = GetFileLines("..\\..\\..\\example_file.txt");
+                Console.WriteLine("Список строк файла");
+                PrintList(fileLines);
 
-            List<int> integerList1 = new List<int> { 1, 2, 3, 3, 4, 5, 6, 7, 8, 8, 8, 9, 9, 10 };
+                List<int> numberList = new List<int> { 1, 2, 3, 3, 4, 5, 6, 7, 8, 8, 8, 9, 9, 10, 11 };
 
-            DeleteOddNumbersFromList(integerList1);
-            Console.WriteLine("Список без нечётых чисел");
-            PrintList(integerList1);
+                DeleteEvenNumbersFromList(numberList);
+                Console.WriteLine("Список без чётых чисел:");
+                PrintList(numberList);
 
-            List<int> integerList2 = GetListWithoutRepeating(integerList1);
-            Console.WriteLine("Список без повторений");
-            PrintList(integerList2);
+                List<int> numberListWithoutRepeat = GetListWithoutRepeating(numberList);
+                Console.WriteLine("Список без повторений:");
+                PrintList(numberListWithoutRepeat);
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Файл не найден");
+            }
         }
 
         public static List<string> GetFileLines(string filePath)
@@ -41,40 +47,44 @@ namespace ArrayListHomeTask
             return fileLines;
         }
 
-        public static void DeleteOddNumbersFromList(List<int> integerList)
+        public static void DeleteEvenNumbersFromList(List<int> numberList)
         {
-            for (int i = 0; i < integerList.Count; i++)
+            for (int i = 0; i < numberList.Count; i++)
             {
-                int number = integerList[i];
-
-                if (number % 2 != 0)
+                if (numberList[i] % 2 == 0)
                 {
-                    integerList.RemoveAt(i--);
+                    numberList.RemoveAt(i);
+                    i -= 1;
                 }
             }
         }
 
         public static List<int> GetListWithoutRepeating(List<int> integerList)
         {
-            List<int> newIntegerList = new List<int>();
+            List<int> numberListWithoutRepeat = new List<int>(integerList.Count);
 
             foreach (int number in integerList)
             {
-                if (!newIntegerList.Contains(number))
+                if (!numberListWithoutRepeat.Contains(number))
                 {
-                    newIntegerList.Add(number);
+                    numberListWithoutRepeat.Add(number);
                 }
             }
 
-            return newIntegerList;
+            return numberListWithoutRepeat;
         }
 
-        public static void PrintList(IList list)
+        public static void PrintList(List<string> list)
         {
-            foreach (var e in list)
+            foreach (string e in list)
             {
                 Console.WriteLine(e);
             }
+        }
+
+        public static void PrintList(List<int> list)
+        {
+            Console.WriteLine($"{ string.Join(", ", list)}");
         }
     }
 }
