@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixTask", "MatrixTask\Ma
 		{79E9DB81-4825-4C44-8237-E9627A99FE0B} = {79E9DB81-4825-4C44-8237-E9627A99FE0B}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListTask", "ListTask\ListTask.csproj", "{17D57F1D-FC0F-44F8-BDAC-77091888CE14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{389298C8-3A3B-4B64-809D-96324CC0F917}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{389298C8-3A3B-4B64-809D-96324CC0F917}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{389298C8-3A3B-4B64-809D-96324CC0F917}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D57F1D-FC0F-44F8-BDAC-77091888CE14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D57F1D-FC0F-44F8-BDAC-77091888CE14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D57F1D-FC0F-44F8-BDAC-77091888CE14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D57F1D-FC0F-44F8-BDAC-77091888CE14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
