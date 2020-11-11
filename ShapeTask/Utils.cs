@@ -13,19 +13,19 @@ namespace ShapeTask
             Console.WriteLine($"Площадь - {shape.GetArea()}");
             Console.WriteLine($"Периметр - {shape.GetPerimeter()}");
         }
-        
+
         public static IShape GetShapeByNumberAreaSize(IShape[] shapeArray, int number)
         {
             Array.Sort(shapeArray, new ShapeAreaComparer());
 
-            return shapeArray[number];
+            return shapeArray[shapeArray.Length - 1 - number];
         }
 
         public static IShape GetShapeByNumberPerimeterSize(IShape[] shapeArray, int number)
         {
             Array.Sort(shapeArray, new ShapePerimeterComparer());
 
-            return shapeArray[number];
+            return shapeArray[shapeArray.Length - 1 - number];
         }
     }
 }

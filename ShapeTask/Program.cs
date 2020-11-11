@@ -20,11 +20,11 @@ namespace ShapeTask
             };
 
             Console.WriteLine("Информация о фигуре с самой большой площадью:");
-            Utils.PrintShapeInfo(Utils.GetShapeByNumberAreaSize(shapesArray, shapesArray.Length - 1));
+            Utils.PrintShapeInfo(Utils.GetShapeByNumberAreaSize(shapesArray, 1));
 
             Console.WriteLine();
             Console.WriteLine("Информация о фигуре со вторым по величиене периметром");
-            Utils.PrintShapeInfo(Utils.GetShapeByNumberPerimeterSize(shapesArray, shapesArray.Length - 2));
+            Utils.PrintShapeInfo(Utils.GetShapeByNumberPerimeterSize(shapesArray, 2));
         }
     }
 }

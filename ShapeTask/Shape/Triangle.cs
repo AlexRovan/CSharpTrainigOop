@@ -28,32 +28,32 @@ namespace ShapeTask.Shape
 
         public double GetWidth()
         {
-            return GetLentgh(X1, X2, X3);
+            return GetLength(X1, X2, X3);
         }
 
         public double GetHeight()
         {
-            return GetLentgh(Y1, Y2, Y3);
+            return GetLength(Y1, Y2, Y3);
         }
 
         public double GetArea()
         {
             double halfPerimeter = GetPerimeter() / 2;
 
-            return Math.Sqrt(halfPerimeter * (halfPerimeter - GetSide(X1, X2, Y1, Y2)) * (halfPerimeter - GetSide(X1, X3, Y1, Y3)) * (halfPerimeter - GetSide(X2, X3, Y2, Y3)));
+            return Math.Sqrt(halfPerimeter * (halfPerimeter - GetLengthSide(X1, X2, Y1, Y2)) * (halfPerimeter - GetLengthSide(X1, X3, Y1, Y3)) * (halfPerimeter - GetLengthSide(X2, X3, Y2, Y3)));
         }
 
         public double GetPerimeter()
         {
-            return GetSide(X1, X2, Y1, Y2) + GetSide(X1, X3, Y1, Y3) + GetSide(X2, X3, Y2, Y3);
+            return GetLengthSide(X1, X2, Y1, Y2) + GetLengthSide(X1, X3, Y1, Y3) + GetLengthSide(X2, X3, Y2, Y3);
         }
 
-        private static double GetSide(double x1, double x2, double y1, double y2)
+        private static double GetLengthSide(double x1, double x2, double y1, double y2)
         {
             return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
         }
 
-        private static double GetLentgh(double x1, double x2, double x3)
+        private static double GetLength(double x1, double x2, double x3)
         {
             return GetMaxNumber(x1, x2, x3) - GetMinNumber(x1, x2, x3);
         }
@@ -70,7 +70,7 @@ namespace ShapeTask.Shape
 
         public override string ToString()
         {
-            return $"Треугольник с вершинами в координатах ({X1},{Y1}), ({X2},{Y2}) и ({X3},{Y3})";
+            return $"Треугольник с вершинами в координатах ({X1}, {Y1}), ({X2}, {Y2}) и ({X3}, {Y3})";
         }
 
         public override bool Equals(object obj)
