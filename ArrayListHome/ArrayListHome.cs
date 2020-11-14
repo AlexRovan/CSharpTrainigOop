@@ -61,17 +61,17 @@ namespace ArrayListHomeTask
 
         public static List<int> GetListWithoutRepeat(List<int> numbersList)
         {
-            List<int> numberListWithoutRepeat = new List<int>(numbersList.Count);
+            List<int> numbersListWithoutRepeat = new List<int>(numbersList.Count);
 
             foreach (int number in numbersList)
             {
-                if (!numberListWithoutRepeat.Contains(number))
+                if (!numbersListWithoutRepeat.Contains(number))
                 {
-                    numberListWithoutRepeat.Add(number);
+                    numbersListWithoutRepeat.Add(number);
                 }
             }
 
-            return numberListWithoutRepeat;
+            return numbersListWithoutRepeat;
         }
 
         public static void PrintList(List<string> list)
