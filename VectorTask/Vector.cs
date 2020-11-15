@@ -21,7 +21,6 @@ namespace VectorTask
         {
             elements = new double[vector.elements.Length];
             Array.Copy(vector.elements, elements, vector.elements.Length);
-            //elements = (double[])vector.elements.Clone();
         }
 
         public Vector(double[] array)
