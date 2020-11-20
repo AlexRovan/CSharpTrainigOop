@@ -16,16 +16,36 @@ namespace ShapeTask
 
         public static IShape GetShapeByNumberAreaSize(IShape[] shapeArray, int number)
         {
+            if (number < 1)
+            {
+                throw new ArgumentException($"Порядковый номер не может быть меньше 1. Введён - {number}", nameof(number));
+            }
+
+            if(shapeArray.Length == 0)
+            {
+                throw new ArgumentException($"Массив не может быть пустым. Длина массива - {shapeArray.Length}", nameof(shapeArray.Length));
+            }
+
             Array.Sort(shapeArray, new ShapeAreaComparer());
 
-            return shapeArray[shapeArray.Length - 1 - number];
+            return shapeArray[shapeArray.Length - number];
         }
 
         public static IShape GetShapeByNumberPerimeterSize(IShape[] shapeArray, int number)
         {
+            if (number < 1)
+            {
+                throw new ArgumentException($"Порядковый номер не может быть меньше 1. Введён - {number}", nameof(number));
+            }
+
+            if (shapeArray.Length == 0)
+            {
+                throw new ArgumentException($"Массив не может быть пустым. Длина массива - {shapeArray.Length}", nameof(shapeArray.Length));
+            }
+
             Array.Sort(shapeArray, new ShapePerimeterComparer());
 
-            return shapeArray[shapeArray.Length - 1 - number];
+            return shapeArray[shapeArray.Length - number];
         }
     }
 }

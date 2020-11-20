@@ -40,15 +40,15 @@ namespace ShapeTask.Shape
         {
             double halfPerimeter = GetPerimeter() / 2;
 
-            return Math.Sqrt(halfPerimeter * (halfPerimeter - GetLengthSide(X1, X2, Y1, Y2)) * (halfPerimeter - GetLengthSide(X1, X3, Y1, Y3)) * (halfPerimeter - GetLengthSide(X2, X3, Y2, Y3)));
+            return Math.Sqrt(halfPerimeter * (halfPerimeter - GetSideLength(X1, X2, Y1, Y2)) * (halfPerimeter - GetSideLength(X1, X3, Y1, Y3)) * (halfPerimeter - GetSideLength(X2, X3, Y2, Y3)));
         }
 
         public double GetPerimeter()
         {
-            return GetLengthSide(X1, X2, Y1, Y2) + GetLengthSide(X1, X3, Y1, Y3) + GetLengthSide(X2, X3, Y2, Y3);
+            return GetSideLength(X1, X2, Y1, Y2) + GetSideLength(X1, X3, Y1, Y3) + GetSideLength(X2, X3, Y2, Y3);
         }
 
-        private static double GetLengthSide(double x1, double x2, double y1, double y2)
+        private static double GetSideLength(double x1, double x2, double y1, double y2)
         {
             return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
         }
