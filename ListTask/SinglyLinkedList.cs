@@ -1,135 +1,131 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ListTask
 {
     class SinglyLinkedList<T>
     {
         private ListItem<T> head;
-        private int count = 0;
+        private int length;
 
-        public int GetLentgh()
+        public int GetLength()
         {
-            return count;
+            return length;
         }
 
-        public T GetFirstElement()
+        public T GetFirst()
         {
+            if (length == 0)
+            {
+                throw new InvalidOperationException("В списке нет данных.");
+            }
+
             return head.Data;
         }
 
-        public T GetElementByIndex(int index)
+        private ListItem<T> GetItemByIndex(int index)
         {
-            int count = 0;
+            int i = 0;
+            ListItem<T> item = head;
 
-            for (ListItem<T> p = head; p != null; p = p.Next)
+            while (item != null)
             {
-                if (count == index)
+                if (i == index)
                 {
-                    return p.Data;
+                    break;
                 }
 
-                count++;
+                item = item.Next;
+                i++;
             }
 
-            throw new IndexOutOfRangeException("Указаного индекса нету в списке");
+            return item;
         }
 
-        public T SetElementByIndex(T value, int index)
+        public T GetByIndex(int index)
         {
-            int count = 0;
-
-            for (ListItem<T> p = head; p != null; p = p.Next)
+            if (index < 0 && index > length - 1)
             {
-                if (count == index)
-                {
-                    T oldData = p.Data;
-                    p.Data = value;
-
-                    return oldData;
-                }
-                count++;
+                throw new ArgumentOutOfRangeException($"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length - 1}", nameof(index));
             }
 
-            throw new IndexOutOfRangeException("Указаного индекса нету в списке");
+            ListItem<T> item = GetItemByIndex(index);
+            return item.Data;
         }
 
-        public void Add(T data)
+        public T SetByIndex(int index, T data)
         {
-            ListItem<T> p = new ListItem<T>(data, head);
-
-            if (head == null)
+            if (index < 0 && index > length - 1)
             {
-                head = p;
-                count++;
-
-                return;
+                throw new ArgumentOutOfRangeException($"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length - 1}", nameof(index));
             }
-            head = p;
 
-            count++;
+            ListItem<T> item = GetItemByIndex(index);
+            T oldData = item.Data;
+            item.Data = data;
+
+            return oldData;
+        }
+
+        public void AddFirst(T data)
+        {
+            ListItem<T> item = new ListItem<T>(data, head);
+
+            head = item;
+            length++;
         }
 
         public void Add(T data, int index)
         {
+            if (index < 0 && index > length - 1)
+            {
+                throw new ArgumentOutOfRangeException($"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length - 1}", nameof(index));
+            }
+
             if (index == 0)
             {
-                Add(data);
+                AddFirst(data);
             }
 
-            ListItem<T> item = new ListItem<T>(data);
-            int count = 0;
+            ListItem<T> newItem = new ListItem<T>(data);
+            ListItem<T> item = GetItemByIndex(index);
 
-            for (ListItem<T> p = head; p != null; p = p.Next)
-            {
-                if (count == index - 1)
-                {
-                    item.Next = p.Next;
-                    p.Next = item;
-
-                    this.count++;
-                    return;
-                }
-                count++;
-            }
-
-            throw new IndexOutOfRangeException("Указаного индекса нету в списке");
+            newItem.Next = item.Next;
+            item.Next = newItem;
+            length++;
         }
 
-        public T Delete()
+        public T DeleteFirst()
         {
             T deletedData = head.Data;
 
-            ListItem<T> p = head.Next;
-            head = p;
+            head = head.Next;
 
-            count--;
+            length--;
 
             return deletedData;
         }
 
-        public T Delete(int index)
+        public T DeleteByIndex(int index)
         {
+            if (index < 0 && index > length - 1)
+            {
+                throw new ArgumentOutOfRangeException($"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length - 1}", nameof(index));
+            }
+
             if (index == 0)
             {
-                return Delete();
+                return DeleteFirst();
             }
 
-            int count = 0;
+            ListItem<T> previousItem = GetItemByIndex(index - 1);
+            ListItem<T> item = previousItem.Next;
 
-            for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.Next)
-            {
-                if (count == index)
-                {
-                    T deletedData = p.Data;
-                    prev.Next = p.Next;
+            T deletedData = item.Data;
+            previousItem.Next = item.Next;
+            length--;
 
-                    this.count--;
-                    return deletedData;
-                }
-                count++;
-            }
-
-            throw new IndexOutOfRangeException("Указаного индекса нету в списке");
+            return deletedData;
         }
 
         public bool DeleteByValue(T data)
@@ -140,12 +136,12 @@ namespace ListTask
                 {
                     if (prev == null)
                     {
-                        Delete();
+                        DeleteFirst();
                         return true;
                     }
 
                     prev.Next = p.Next;
-                    count--;
+                    length--;
                     return true;
                 }
             }
@@ -153,26 +149,31 @@ namespace ListTask
             return false;
         }
 
-        public void Reversal()
+        public void Reverse()
         {
-            SinglyLinkedList<T> reversalList = new SinglyLinkedList<T>();
+            ListItem<T> previousItem = null;
 
-            for (ListItem<T> p = head; p != null; p = p.Next)
+            for (ListItem<T> item = head, nextItem = null; item != null; previousItem = item, item = nextItem)
             {
-                reversalList.Add(p.Data);
+                nextItem = item.Next;
+                item.Next = previousItem;
             }
 
-            head = reversalList.head;
+            head = previousItem;
         }
 
         public SinglyLinkedList<T> Copy()
         {
-            SinglyLinkedList<T> reversalList = new SinglyLinkedList<T>();
-            reversalList.count = count;
+            if (length == 0)
+            {
+                throw new InvalidOperationException("В списке нет данных для копирования.");
+            }
+
+            SinglyLinkedList<T> list = new SinglyLinkedList<T>();
+            list.length = length;
 
             ListItem<T> copyItem = new ListItem<T>(head.Data, head.Next);
-
-            reversalList.head = copyItem;
+            list.head = copyItem;
 
             for (ListItem<T> p = head; p.Next != null; p = p.Next)
             {
@@ -180,7 +181,19 @@ namespace ListTask
                 copyItem = copyItem.Next;
             }
 
-            return reversalList;
+            return list;
+        }
+
+        public override string ToString()
+        {
+            List<T> dataList = new List<T>(length);
+
+            for (ListItem<T> p = head; p != null; p = p.Next)
+            {
+                dataList.Add(p.Data);
+            }
+
+            return $"{{{string.Join(", ", dataList)}}}"; ;
         }
     }
 }

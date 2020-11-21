@@ -7,12 +7,15 @@ namespace CSVTask
     {
         public static void ConvertToHtml(string csvFilePath, string htmlFilePath)
         {
+            if (!File.Exists(csvFilePath))
+            {
+                throw new FileNotFoundException($"CSV файл не найден по пути {csvFilePath}.", nameof(csvFilePath));
+            }
+
             try
             {
                 using (StreamReader reader = new StreamReader(csvFilePath))
                 {
-                    string line;
-
                     bool isEscapeSymbol = false;
                     bool isEscapeCell = false;
                     bool isNewCell = true;
@@ -21,11 +24,10 @@ namespace CSVTask
                     using (StreamWriter writer = new StreamWriter(htmlFilePath))
                     {
                         writer.Write("<!DOCTYPE HTML><html><head><meta charset=\"utf-8\"><title>Таблица</title></head><body><table border=\"1\">");
+                        string line;
 
                         while ((line = reader.ReadLine()) != null)
                         {
-                            line = line.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
-
                             for (int i = 0; i < line.Length; i++)
                             {
                                 if (isNewLine)
@@ -68,12 +70,26 @@ namespace CSVTask
 
                                     if (i == line.Length - 1)
                                     {
-                                        writer.Write(line[i]);
+                                        if (IsTagEscaping(line[i]))
+                                        {
+                                            writer.Write(ReplaceTagEscaping(line[i]));
+                                        }
+                                        else
+                                        {
+                                            writer.Write(line[i]);
+                                        }
+
                                         writer.Write("</td></tr>");
 
                                         isNewCell = true;
                                         isNewLine = true;
 
+                                        continue;
+                                    }
+
+                                    if (IsTagEscaping(line[i]))
+                                    {
+                                        writer.Write(ReplaceTagEscaping(line[i]));
                                         continue;
                                     }
 
@@ -125,6 +141,12 @@ namespace CSVTask
                                     continue;
                                 }
 
+                                if (IsTagEscaping(line[i]))
+                                {
+                                    writer.Write(ReplaceTagEscaping(line[i]));
+                                    continue;
+                                }
+
                                 writer.Write(line[i]);
 
                                 if (i == line.Length - 1)
@@ -137,14 +159,46 @@ namespace CSVTask
                     }
                 }
             }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine("CSV файл не найден.");
-            }
             catch (FormatException)
             {
                 Console.WriteLine("CSV файл имеет не корректное содержание.");
+                throw;
             }
+        }
+
+        private static bool IsTagEscaping(char ch)
+        {
+            if (ch == '&')
+            {
+                return true;
+            }
+
+            if (ch == '<')
+            {
+                return true;
+            }
+
+            if (ch == '>')
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private static string ReplaceTagEscaping(char ch)
+        {
+            if (ch == '<')
+            {
+                return "&lt;";
+            }
+
+            if (ch == '>')
+            {
+                return "&gt;";
+            }
+
+            return "&amp;";
         }
     }
 }

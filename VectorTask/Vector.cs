@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace VectorTask
 {
-    class Vector
+    public class Vector
     {
         private double[] elements;
 
@@ -11,7 +11,7 @@ namespace VectorTask
         {
             if (length < 1)
             {
-                throw new ArgumentException($"Размерность вектора должна быть больше 1, получено - {nameof(length)}", nameof(length));
+                throw new ArgumentException($"Размерность вектора должна быть больше 1, получено - {length}", nameof(length));
             }
 
             elements = new double[length];
@@ -27,7 +27,7 @@ namespace VectorTask
         {
             if (array.Length < 1)
             {
-                throw new ArgumentException($"Размерность массива для создания вектора должна быть больше 0, получено - {nameof(array.Length)}", nameof(array.Length));
+                throw new ArgumentException($"Размерность массива для создания вектора должна быть больше 0, получено - {array.Length}", nameof(array.Length));
             }
 
             elements = new double[array.Length];
@@ -38,12 +38,12 @@ namespace VectorTask
         {
             if (length <= 0)
             {
-                throw new ArgumentException($"Размерность должна быть больше 1, получено - {nameof(length)}", nameof(length));
+                throw new ArgumentException($"Размерность должна быть больше 1, получено - {length}", nameof(length));
             }
 
             if (array.Length < 1)
             {
-                throw new ArgumentException($"Размерность массива для создания вектора должна быть больше 0, получено - {nameof(array.Length)}", nameof(array.Length));
+                throw new ArgumentException($"Размерность массива для создания вектора должна быть больше 0, получено - {array.Length}", nameof(array.Length));
             }
 
             elements = new double[length];

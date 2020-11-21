@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ListTask
 {
@@ -10,35 +12,34 @@ namespace ListTask
             {
                 SinglyLinkedList<string> list = new SinglyLinkedList<string>();
 
-                list.Add("1");
-                list.Add("12");
-                list.Add("123");
-                list.Add("1234");
-                list.Add("12345");
+                list.AddFirst("1");
+                list.AddFirst("12");
+                list.AddFirst("123");
+                list.AddFirst("1234");
+                list.AddFirst("12345");
 
                 SinglyLinkedList<string> copyList = list.Copy();
 
-                Console.WriteLine($"Размер списка {list.GetLentgh()}");
-                Console.WriteLine($"Значение первого элемента - {list.GetFirstElement()}");
-                Console.WriteLine($"Значение элемента 2 индексом - {list.GetElementByIndex(2)}");
-                Console.WriteLine($"Изменение значения элемента с 2 индексом. Старое значение - {list.SetElementByIndex("abv", 2)}");
-                Console.WriteLine($"Удаление элемента с 3 индексом. Старое значение {list.Delete(3)}");
+                Console.WriteLine($"Размер списка {list.GetLength()}");
+                Console.WriteLine($"Значение первого элемента - {list.GetFirst()}");
+                Console.WriteLine($"Значение элемента 2 индексом - {list.GetByIndex(2)}");
+                Console.WriteLine($"Изменение значения элемента с 2 индексом. Старое значение - {list.SetByIndex(2, "abv")}");
+                Console.WriteLine($"Удаление элемента с 3 индексом. Старое значение {list.DeleteByIndex(3)}");
 
-                list.Add("e1");
+                list.AddFirst("e1");
                 list.Add("e2", 4);
-                
+
                 Console.WriteLine($"Удаление элемента по значению - {list.DeleteByValue("abv")}");
-                Console.WriteLine($"Удаление первого элемента {list.Delete()}");
-                list.Reversal();
-            }
-            catch (IndexOutOfRangeException)
-            {
-                Console.WriteLine("Был введен неправильный индекс списка.");
+                Console.WriteLine($"Удаление первого элемента {list.DeleteFirst()}");
+
+                copyList.Reverse();
+                Console.WriteLine(list.ToString());
+                Console.WriteLine(copyList.ToString());
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Неизвестная ошибка - {e}");
-            }    
+            }
         }
     }
 }

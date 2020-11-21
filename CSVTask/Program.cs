@@ -11,12 +11,17 @@ namespace CSVTask
                 string csvFilePath = args[0];
                 string htmlFilePath = args[1];
 
+                if(String.IsNullOrEmpty(csvFilePath))
+                {
+                    throw new ArgumentException("В аргументах не указан путь до csv. Необходимо указать путь до Csv файла и путь выходного html файла.");
+                }
+
+                if (String.IsNullOrEmpty(csvFilePath))
+                {
+                    throw new ArgumentException("В аргументах не указан путь до выходного html. Необходимо указать путь до Csv файла и путь выходного html файла.");
+                }
+
                 CsvConverter.ConvertToHtml(csvFilePath, htmlFilePath);
-            }
-            catch (IndexOutOfRangeException e)
-            {
-                Console.WriteLine("В аргументах не указаны пути входного и выходного файла.");
-                Console.WriteLine($"Ошибка {e}");
             }
             catch(Exception e)
             {
