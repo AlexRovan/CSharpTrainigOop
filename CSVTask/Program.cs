@@ -16,7 +16,7 @@ namespace CSVTask
                     throw new ArgumentException("В аргументах не указан путь до csv. Необходимо указать путь до Csv файла и путь выходного html файла.");
                 }
 
-                if (String.IsNullOrEmpty(csvFilePath))
+                if (String.IsNullOrEmpty(htmlFilePath))
                 {
                     throw new ArgumentException("В аргументах не указан путь до выходного html. Необходимо указать путь до Csv файла и путь выходного html файла.");
                 }
