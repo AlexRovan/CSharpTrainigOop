@@ -27,9 +27,9 @@ namespace ListTask
                 Console.WriteLine($"Удаление элемента с 3 индексом. Старое значение {list.DeleteByIndex(3)}");
 
                 list.AddFirst("e1");
-                list.Add("e2", 4);
+                list.Add(4, "e2");
 
-                Console.WriteLine($"Удаление элемента по значению - {list.DeleteByValue("abv")}");
+                Console.WriteLine($"Удаление элемента по значению - {list.DeleteByData("abv")}");
                 Console.WriteLine($"Удаление первого элемента {list.DeleteFirst()}");
 
                 copyList.Reverse();

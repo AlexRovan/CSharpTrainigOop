@@ -75,7 +75,7 @@ namespace ListTask
             length++;
         }
 
-        public void Add(T data, int index)
+        public void Add(int index, T data)
         {
             if (index < 0 && index > length - 1)
             {
@@ -97,6 +97,11 @@ namespace ListTask
 
         public T DeleteFirst()
         {
+            if (length == 0)
+            {
+                throw new InvalidOperationException("В списке нет данных.");
+            }
+
             T deletedData = head.Data;
 
             head = head.Next;
@@ -128,8 +133,13 @@ namespace ListTask
             return deletedData;
         }
 
-        public bool DeleteByValue(T data)
+        public bool DeleteByData(T data)
         {
+            if (length == 0)
+            {
+                throw new InvalidOperationException("В списке нет данных.");
+            }
+
             for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.Next)
             {
                 if (p.Data.Equals(data))
@@ -151,6 +161,11 @@ namespace ListTask
 
         public void Reverse()
         {
+            if (length == 0)
+            {
+                throw new InvalidOperationException("В списке нет данных.");
+            }
+
             ListItem<T> previousItem = null;
 
             for (ListItem<T> item = head, nextItem = null; item != null; previousItem = item, item = nextItem)
