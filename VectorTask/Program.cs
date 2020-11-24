@@ -25,13 +25,13 @@ namespace VectorTask
             vector1.Subtract(vector2);
             Console.WriteLine($"Отнимим от вектора1  вектор2 - {vector1}");
 
-            vector1.MultiplyScalar(4);
+            vector1.MultiplyOnScalar(4);
             Console.WriteLine($"Умножим вектор1 на скаляр 4 - {vector1}");
 
             Console.WriteLine($"Получим длинну вектора1 - {vector1.GetLength()}");
 
-            vector2.Reverse();
-            Console.WriteLine($"Разворот вектора2 - {vector2}");
+            vector1.Reverse();
+            Console.WriteLine($"Разворот вектора1 - {vector1}");
 
             Console.WriteLine($"Сравнение вектора1 и вектора2 - {vector1.Equals(vector2)}");
             Console.WriteLine($"Сравнение вектора2 и вектора3 - {vector2.Equals(vector3)}");
@@ -43,7 +43,7 @@ namespace VectorTask
             Console.WriteLine();
             Console.WriteLine($"Сумма векторов 2 и 4  - {Vector.GetSum(vector2, vector4)}");
             Console.WriteLine($"Разность векторов 2 и 4 - {Vector.GetDifference(vector2, vector4)}");
-            Console.WriteLine($"Произведение векторов 2 и 5 - {Vector.GetScalarMultiplication(vector2, vector4)}");
+            Console.WriteLine($"Произведение векторов 2 и 5 - {Vector.GetScalarComposition(vector2, vector5)}");
         }
     }
 }
