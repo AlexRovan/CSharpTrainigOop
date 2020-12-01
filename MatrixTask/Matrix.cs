@@ -116,7 +116,7 @@ namespace MatrixTask
         {
             if (index < 0 || index > GetColumnSize())
             {
-                throw new ArgumentException($"Столбца с индексом {index} нет в матрице. Досупен диапазаон: от 0 до {GetColumnSize()}", nameof(index));
+                throw new ArgumentException($"Столбца с индексом {index} нет в матрице. Досупен диапазаон: от 0 до {GetColumnSize() - 1}", nameof(index));
             }
 
             double[] array = new double[elements.Length];
@@ -139,7 +139,7 @@ namespace MatrixTask
         {
             if (index < 0 || index > GetLineSize())
             {
-                throw new ArgumentException($"Строки с индексом {index} нет в матрице. Досупен диапазаон: от 0 до {GetLineSize()}", nameof(index));
+                throw new ArgumentException($"Строки с индексом {index} нет в матрице. Досупен диапазаон: от 0 до {GetLineSize() - 1}", nameof(index));
             }
 
             return elements[index];
@@ -209,8 +209,11 @@ namespace MatrixTask
 
         public void Subtract(Matrix matrix)
         {
-            throw new ArgumentException($"Операцию разности можно выполнять с матрицей рамзерности {GetColumnSize()}*{GetLineSize()}." +
+            if (matrix.GetLineSize() != GetLineSize() || matrix.GetColumnSize() != GetColumnSize())
+            {
+                throw new ArgumentException($"Операцию разности можно выполнять с матрицей рамзерности {GetColumnSize()}*{GetLineSize()}." +
                 $"Размерносить полученной матрицы {matrix.GetColumnSize()}*{matrix.GetLineSize()}");
+            }
 
             for (int i = 0; i < matrix.elements.Length; i++)
             {
@@ -222,7 +225,7 @@ namespace MatrixTask
         {
             if (GetColumnSize() != GetLineSize())
             {
-                throw new InvalidOperationException($"Найти оперделитель можно только для квадратной матрицуы Текущий размер: {GetColumnSize()}*{GetLineSize()}");
+                throw new InvalidOperationException($"Найти оперделитель можно только для квадратной матрицы. Текущий размер: {GetColumnSize()}*{GetLineSize()}");
             }
 
             if (GetLineSize() == 1)

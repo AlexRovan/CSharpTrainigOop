@@ -9,14 +9,13 @@ namespace MatrixTask
         static void Main(string[] args)
         {
             Vector vector1 = new Vector(new double[3] { 2.0, 5.0, 9.0 });
-            Vector vector2 = new Vector(new double[4] { 3.0, 4.0, 4.0,4.0 });
+            Vector vector2 = new Vector(new double[3] { 3.0, 4.0, 4.0 });
             Vector vector3 = new Vector(new double[3] { 7.0, 2.0, 3.0 });
 
             double[,] array =
             {
                 { 1.0, 2.0, 3.0 },
                 { 4.0, 5.0, 6.0 },
-                { 7.0, 8.0, 9.0},
                 { 7.0, 8.0, 9.0}
             };
 
@@ -25,7 +24,7 @@ namespace MatrixTask
 
             Matrix matrix2 = new Matrix(array);
             Console.WriteLine($"Матрица2: {matrix2}");
-     
+
             Matrix matrix3 = new Matrix(3, 3);
             Console.WriteLine($"Матрица3: {matrix3}");
 
