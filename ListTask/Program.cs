@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace ListTask
 {
@@ -11,7 +9,7 @@ namespace ListTask
             try
             {
                 SinglyLinkedList<string> list = new SinglyLinkedList<string>();
-
+          
                 list.AddFirst("1");
                 list.AddFirst("12");
                 list.AddFirst("123");
@@ -27,14 +25,14 @@ namespace ListTask
                 Console.WriteLine($"Удаление элемента с 3 индексом. Старое значение {list.DeleteByIndex(3)}");
 
                 list.AddFirst("e1");
-                list.Add(4, "e2");
-
-                Console.WriteLine($"Удаление элемента по значению - {list.DeleteByData("abv")}");
+                list.Add(5, "e2");
+                
+                Console.WriteLine($"Удаление элемента по значению - {list.DeleteByData(null)}");
                 Console.WriteLine($"Удаление первого элемента {list.DeleteFirst()}");
 
                 copyList.Reverse();
                 Console.WriteLine(list.ToString());
-                Console.WriteLine(copyList.ToString());
+                Console.WriteLine(copyList);
             }
             catch (Exception e)
             {

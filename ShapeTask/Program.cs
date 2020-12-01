@@ -19,12 +19,19 @@ namespace ShapeTask
                 new Triangle(0.0, 0.0, -1.0, -4.0, 3.0, 6.0)
             };
 
-            Console.WriteLine("Информация о фигуре с самой большой площадью:");
-            Utils.PrintShapeInfo(Utils.GetShapeByNumberAreaSize(shapesArray, 1));
+            try
+            {
+                Console.WriteLine("Информация о фигуре с самой большой площадью:");
+                Utils.PrintShapeInfo(Utils.GetShapesByNumberAreaSize(shapesArray, 1));
 
-            Console.WriteLine();
-            Console.WriteLine("Информация о фигуре со вторым по величиене периметром");
-            Utils.PrintShapeInfo(Utils.GetShapeByNumberPerimeterSize(shapesArray, 2));
+                Console.WriteLine();
+                Console.WriteLine("Информация о фигуре со вторым по величиене периметром");
+                Utils.PrintShapeInfo(Utils.GetShapesByNumberPerimeterSize(shapesArray, 2));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Произошла ошибка во время выполнения программы - {e}");
+            }
         }
     }
 }

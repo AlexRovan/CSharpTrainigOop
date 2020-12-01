@@ -14,14 +14,14 @@ namespace ShapeTask
             Console.WriteLine($"Периметр - {shape.GetPerimeter()}");
         }
 
-        public static IShape GetShapeByNumberAreaSize(IShape[] shapeArray, int number)
+        public static IShape GetShapesByNumberAreaSize(IShape[] shapeArray, int number)
         {
             if (shapeArray.Length == 0)
             {
                 throw new ArgumentException($"Массив не может быть пустым. Длина массива - {shapeArray.Length}", nameof(shapeArray.Length));
             }
 
-            if (number < 1 || number >= shapeArray.Length)
+            if (number < 1 || number > shapeArray.Length)
             {
                 throw new ArgumentException($"Порядковый номер фигуры по площади может быть только от 1 до {shapeArray.Length}. Введён - {number}", nameof(number));
             }
@@ -31,14 +31,14 @@ namespace ShapeTask
             return shapeArray[shapeArray.Length - number];
         }
 
-        public static IShape GetShapeByNumberPerimeterSize(IShape[] shapeArray, int number)
+        public static IShape GetShapesByNumberPerimeterSize(IShape[] shapeArray, int number)
         {
             if (shapeArray.Length == 0)
             {
                 throw new ArgumentException($"Массив не может быть пустым. Длина массива - {shapeArray.Length}", nameof(shapeArray.Length));
             }
 
-            if (number < 1 || number >= shapeArray.Length)
+            if (number < 1 || number > shapeArray.Length)
             {
                 throw new ArgumentException($"Порядковый номер фмгуры по периметру может быть только от 1 до {shapeArray.Length}. Введён - {number}", nameof(number));
             }

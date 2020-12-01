@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ListTask
 {
@@ -44,10 +45,7 @@ namespace ListTask
 
         public T GetByIndex(int index)
         {
-            if (index < 0 && index > length - 1)
-            {
-                throw new ArgumentOutOfRangeException($"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length - 1}", nameof(index));
-            }
+            CheckIndex(index);
 
             ListItem<T> item = GetItemByIndex(index);
             return item.Data;
@@ -55,10 +53,7 @@ namespace ListTask
 
         public T SetByIndex(int index, T data)
         {
-            if (index < 0 && index > length - 1)
-            {
-                throw new ArgumentOutOfRangeException($"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length - 1}", nameof(index));
-            }
+            CheckIndex(index);
 
             ListItem<T> item = GetItemByIndex(index);
             T oldData = item.Data;
@@ -67,28 +62,32 @@ namespace ListTask
             return oldData;
         }
 
+        private void CheckIndex(int index)
+        {
+            if (index < 0 || index > length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), $"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length}");
+            }
+        }
+
         public void AddFirst(T data)
         {
-            ListItem<T> item = new ListItem<T>(data, head);
-
-            head = item;
+            head = new ListItem<T>(data, head);
             length++;
         }
 
         public void Add(int index, T data)
         {
-            if (index < 0 && index > length - 1)
-            {
-                throw new ArgumentOutOfRangeException($"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length - 1}", nameof(index));
-            }
+            CheckIndex(index);
 
             if (index == 0)
             {
                 AddFirst(data);
+                return;
             }
 
             ListItem<T> newItem = new ListItem<T>(data);
-            ListItem<T> item = GetItemByIndex(index);
+            ListItem<T> item = GetItemByIndex(index - 1);
 
             newItem.Next = item.Next;
             item.Next = newItem;
@@ -113,10 +112,7 @@ namespace ListTask
 
         public T DeleteByIndex(int index)
         {
-            if (index < 0 && index > length - 1)
-            {
-                throw new ArgumentOutOfRangeException($"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length - 1}", nameof(index));
-            }
+            CheckIndex(index);
 
             if (index == 0)
             {
@@ -137,20 +133,20 @@ namespace ListTask
         {
             if (length == 0)
             {
-                throw new InvalidOperationException("В списке нет данных.");
+                return true;
             }
 
-            for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.Next)
+            if (head.Data.Equals(data))
             {
-                if (p.Data.Equals(data))
-                {
-                    if (prev == null)
-                    {
-                        DeleteFirst();
-                        return true;
-                    }
+                DeleteFirst();
+                return true;
+            }
 
-                    prev.Next = p.Next;
+            for (ListItem<T> item = head, previousItem = null; item != null; previousItem = item, item = item.Next)
+            {
+                if (item.Data.Equals(data))
+                {
+                    previousItem.Next = item.Next;
                     length--;
                     return true;
                 }
@@ -161,14 +157,9 @@ namespace ListTask
 
         public void Reverse()
         {
-            if (length == 0)
-            {
-                throw new InvalidOperationException("В списке нет данных.");
-            }
-
             ListItem<T> previousItem = null;
 
-            for (ListItem<T> item = head, nextItem = null; item != null; previousItem = item, item = nextItem)
+            for (ListItem<T> item = head, nextItem; item != null; previousItem = item, item = nextItem)
             {
                 nextItem = item.Next;
                 item.Next = previousItem;
@@ -181,7 +172,7 @@ namespace ListTask
         {
             if (length == 0)
             {
-                throw new InvalidOperationException("В списке нет данных для копирования.");
+                return new SinglyLinkedList<T>();
             }
 
             SinglyLinkedList<T> list = new SinglyLinkedList<T>();
@@ -201,14 +192,14 @@ namespace ListTask
 
         public override string ToString()
         {
-            List<T> dataList = new List<T>(length);
+            StringBuilder sb = new StringBuilder();
 
-            for (ListItem<T> p = head; p != null; p = p.Next)
+            for (ListItem<T> item = head; item != null; item = item.Next)
             {
-                dataList.Add(p.Data);
+                sb.Append(item.Data + ", ");
             }
-
-            return $"{{{string.Join(", ", dataList)}}}"; ;
+            
+            return $"{{{sb}}}";
         }
     }
 }
