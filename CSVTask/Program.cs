@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace CSVTask
 {
@@ -11,19 +12,27 @@ namespace CSVTask
                 string csvFilePath = args[0];
                 string htmlFilePath = args[1];
 
-                if(String.IsNullOrEmpty(csvFilePath))
+                if (string.IsNullOrEmpty(csvFilePath))
                 {
-                    throw new ArgumentException("В аргументах не указан путь до csv. Необходимо указать путь до Csv файла и путь выходного html файла.");
+                    Console.WriteLine("Конвертация не возможна. В аргументах не указан путь до csv. Необходимо указать путь до Csv файла и путь выходного html файла.");
+                    return;
                 }
 
-                if (String.IsNullOrEmpty(htmlFilePath))
+                if (string.IsNullOrEmpty(htmlFilePath))
                 {
-                    throw new ArgumentException("В аргументах не указан путь до выходного html. Необходимо указать путь до Csv файла и путь выходного html файла.");
+                    Console.WriteLine("Конвертация не возможна. В аргументах не указан путь до выходного html. Необходимо указать путь до Csv файла и путь выходного html файла.");
+                    return;
+                }
+
+                if (!File.Exists(csvFilePath))
+                {
+                    Console.WriteLine($"CSV файл не найден");
+                    return;
                 }
 
                 CsvConverter.ConvertToHtml(csvFilePath, htmlFilePath);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine($"Произошла ошибка во время конвертации - {e}");
             }

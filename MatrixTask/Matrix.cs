@@ -179,7 +179,7 @@ namespace MatrixTask
 
             for (int i = 0; i < vector.GetSize(); i++)
             {
-                array[i] = Vector.GetScalarComposition(elements[i], vector);
+                array[i] = Vector.GetScalarProduct(elements[i], vector);
             }
 
             elements = new Vector[1] { new Vector(array) };
@@ -189,7 +189,7 @@ namespace MatrixTask
         {
             for (int i = 0; i < elements.Length; i++)
             {
-                elements[i].MultiplyOnScalar(number);
+                elements[i].MultiplyByScalar(number);
             }
         }
 

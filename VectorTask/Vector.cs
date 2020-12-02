@@ -40,14 +40,9 @@ namespace VectorTask
             {
                 throw new ArgumentException($"Размерность для создания вектора должна быть больше 0, получено: {size}", nameof(size));
             }
-
-            if (size < array.Length)
-            {
-                throw new ArgumentException($"Размер массива {array.Length} не может быть меньше заданного размера вектора: {size}.", nameof(array.Length));
-            }
-
+            
             elements = new double[size];
-            Array.Copy(array, elements, array.Length);
+            Array.Copy(array, elements, size);
         }
 
         public double GetElementByIndex(int index)
@@ -69,22 +64,12 @@ namespace VectorTask
         {
             if (elements.Length < vector.elements.Length)
             {
-                double[] copyElements = new double[vector.elements.Length];
-                Array.Copy(vector.elements, copyElements, copyElements.Length);
-
-                Array.Resize(ref elements, copyElements.Length);
-
-                for (int i = 0; i < copyElements.Length; i++)
-                {
-                    elements[i] += copyElements[i];
-                }
+                Array.Resize(ref elements, vector.elements.Length);
             }
-            else
+
+            for (int i = 0; i < vector.elements.Length; i++)
             {
-                for (int i = 0; i < vector.elements.Length; i++)
-                {
-                    elements[i] += vector.elements[i];
-                }
+                elements[i] += vector.elements[i];
             }
         }
 
@@ -92,26 +77,16 @@ namespace VectorTask
         {
             if (elements.Length < vector.elements.Length)
             {
-                double[] copyElements = new double[vector.elements.Length];
-                Array.Copy(vector.elements, copyElements, copyElements.Length);
-
-                Array.Resize(ref elements, copyElements.Length);
-
-                for (int i = 0; i < copyElements.Length; i++)
-                {
-                    elements[i] -= copyElements[i];
-                }
+                Array.Resize(ref elements, vector.elements.Length);
             }
-            else
+
+            for (int i = 0; i < vector.elements.Length; i++)
             {
-                for (int i = 0; i < vector.elements.Length; i++)
-                {
-                    elements[i] -= vector.elements[i];
-                }
+                elements[i] -= vector.elements[i];
             }
         }
 
-        public void MultiplyOnScalar(double number)
+        public void MultiplyByScalar(double number)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -121,7 +96,7 @@ namespace VectorTask
 
         public void Reverse()
         {
-            MultiplyOnScalar(-1);
+            MultiplyByScalar(-1);
         }
 
         public double GetLength()
@@ -130,7 +105,7 @@ namespace VectorTask
 
             foreach (double e in elements)
             {
-                sum += Math.Pow(e, 2);
+                sum += e * e;
             }
 
             return Math.Sqrt(sum);
@@ -187,11 +162,12 @@ namespace VectorTask
             return resultVector;
         }
 
-        public static double GetScalarComposition(Vector vector1, Vector vector2)
+        public static double GetScalarProduct(Vector vector1, Vector vector2)
         {
             double result = 0;
+            int length = Math.Min(vector1.elements.Length, vector2.elements.Length);
 
-            for (int i = 0; i < Math.Min(vector1.elements.Length, vector2.elements.Length); i++)
+            for (int i = 0; i < length; i++)
             {
                 result += (vector1.elements[i] * vector2.elements[i]);
             }

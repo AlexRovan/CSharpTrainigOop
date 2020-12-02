@@ -7,11 +7,6 @@ namespace CSVTask
     {
         public static void ConvertToHtml(string csvFilePath, string htmlFilePath)
         {
-            if (!File.Exists(csvFilePath))
-            {
-                throw new FileNotFoundException($"CSV файл не найден по пути {csvFilePath}.", nameof(csvFilePath));
-            }
-
             try
             {
                 using (StreamReader reader = new StreamReader(csvFilePath))
@@ -70,14 +65,7 @@ namespace CSVTask
 
                                     if (i == line.Length - 1)
                                     {
-                                        if (IsTagEscaping(line[i]))
-                                        {
-                                            writer.Write(ReplaceTagEscaping(line[i]));
-                                        }
-                                        else
-                                        {
-                                            writer.Write(line[i]);
-                                        }
+                                        writer.Write(ReplaceTagEscaping(line[i]));
 
                                         writer.Write("</td></tr>");
 
@@ -87,13 +75,7 @@ namespace CSVTask
                                         continue;
                                     }
 
-                                    if (IsTagEscaping(line[i]))
-                                    {
-                                        writer.Write(ReplaceTagEscaping(line[i]));
-                                        continue;
-                                    }
-
-                                    writer.Write(line[i]);
+                                    writer.Write(ReplaceTagEscaping(line[i]));
                                     continue;
                                 }
 
@@ -141,13 +123,7 @@ namespace CSVTask
                                     continue;
                                 }
 
-                                if (IsTagEscaping(line[i]))
-                                {
-                                    writer.Write(ReplaceTagEscaping(line[i]));
-                                    continue;
-                                }
-
-                                writer.Write(line[i]);
+                                writer.Write(ReplaceTagEscaping(line[i]));
 
                                 if (i == line.Length - 1)
                                 {
@@ -166,26 +142,6 @@ namespace CSVTask
             }
         }
 
-        private static bool IsTagEscaping(char ch)
-        {
-            if (ch == '&')
-            {
-                return true;
-            }
-
-            if (ch == '<')
-            {
-                return true;
-            }
-
-            if (ch == '>')
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         private static string ReplaceTagEscaping(char ch)
         {
             if (ch == '<')
@@ -198,7 +154,12 @@ namespace CSVTask
                 return "&gt;";
             }
 
-            return "&amp;";
+            if (ch == '&')
+            {
+                return "&amp;";
+            }
+
+            return ch.ToString();
         }
     }
 }
