@@ -40,9 +40,9 @@ namespace VectorTask
             {
                 throw new ArgumentException($"Размерность для создания вектора должна быть больше 0, получено: {size}", nameof(size));
             }
-            
+
             elements = new double[size];
-            Array.Copy(array, elements, size);
+            Array.Copy(array, elements, Math.Min(array.Length, size));
         }
 
         public double GetElementByIndex(int index)

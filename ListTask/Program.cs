@@ -31,7 +31,7 @@ namespace ListTask
                 Console.WriteLine($"Удаление первого элемента {list.DeleteFirst()}");
 
                 copyList.Reverse();
-                Console.WriteLine(list.ToString());
+                Console.WriteLine(list);
                 Console.WriteLine(copyList);
             }
             catch (Exception e)

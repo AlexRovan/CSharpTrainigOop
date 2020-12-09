@@ -7,26 +7,19 @@ namespace CSVTask
     {
         static void Main(string[] args)
         {
+            if (args.Length < 2)
+            {
+                throw new ArgumentException(nameof(args), "Аргументы программы указаны не полностью. Необходимо указать путь до Csv файла(1) и путь выходного html файла(2).");
+            }
+
             try
             {
                 string csvFilePath = args[0];
                 string htmlFilePath = args[1];
-
-                if (string.IsNullOrEmpty(csvFilePath))
-                {
-                    Console.WriteLine("Конвертация не возможна. В аргументах не указан путь до csv. Необходимо указать путь до Csv файла и путь выходного html файла.");
-                    return;
-                }
-
-                if (string.IsNullOrEmpty(htmlFilePath))
-                {
-                    Console.WriteLine("Конвертация не возможна. В аргументах не указан путь до выходного html. Необходимо указать путь до Csv файла и путь выходного html файла.");
-                    return;
-                }
-
+         
                 if (!File.Exists(csvFilePath))
                 {
-                    Console.WriteLine($"CSV файл не найден");
+                    Console.WriteLine("CSV файл не найден");
                     return;
                 }
 

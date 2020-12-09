@@ -10,7 +10,7 @@ namespace VectorTask
             Vector vector2 = new Vector(new double[] { 3.0, 4.0, 8.0, 11.0, 9.2, 11 });
             Vector vector3 = new Vector(vector2);
             Vector vector4 = new Vector(new double[] { 3.0, 1.0, 3.0, 5.0 });
-            Vector vector5 = new Vector(new double[] { 1.0, 1.0, 2.0, 1.0 }, 3);
+            Vector vector5 = new Vector(new double[] { 1.0}, 2);
 
             Console.WriteLine($"Элементы вектора1 - {vector1}");
             Console.WriteLine($"Элементы вектора2 - {vector2}");

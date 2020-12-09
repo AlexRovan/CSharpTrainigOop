@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace ListTask
@@ -64,9 +63,9 @@ namespace ListTask
 
         private void CheckIndex(int index)
         {
-            if (index < 0 || index > length)
+            if (index < 0 || index > length - 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length}");
+                throw new ArgumentOutOfRangeException(nameof(index), $"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length - 1}");
             }
         }
 
@@ -78,7 +77,10 @@ namespace ListTask
 
         public void Add(int index, T data)
         {
-            CheckIndex(index);
+            if (index < 0 || index > length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), $"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length}");
+            }
 
             if (index == 0)
             {
@@ -136,7 +138,7 @@ namespace ListTask
                 return true;
             }
 
-            if (head.Data.Equals(data))
+            if (object.Equals(data, head.Data))
             {
                 DeleteFirst();
                 return true;
@@ -144,7 +146,7 @@ namespace ListTask
 
             for (ListItem<T> item = head, previousItem = null; item != null; previousItem = item, item = item.Next)
             {
-                if (item.Data.Equals(data))
+                if (object.Equals(data, item.Data))
                 {
                     previousItem.Next = item.Next;
                     length--;
@@ -196,10 +198,10 @@ namespace ListTask
 
             for (ListItem<T> item = head; item != null; item = item.Next)
             {
-                sb.Append(item.Data + ", ");
+                sb.Append(item.Data).Append(", ");
             }
-            
-            return $"{{{sb}}}";
+
+            return sb.Remove(sb.Length - 2, 2).ToString();
         }
     }
 }
