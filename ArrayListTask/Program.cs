@@ -5,24 +5,62 @@ namespace ArrayListTask
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
-            List<string> list2 = new List<string>(5);
+            ArrayList<string> dinosaurs = new ArrayList<string>(10);
+            string[] array = new string[5];
 
-            list2.Add("123");
-            list2.Add("1233");
-            int s = list2.IndexOf("1");
-            string a = list2[5];
-            ArrayList<string> list = new ArrayList<string>(10);
+            Console.WriteLine("\nCapacity: {0}", dinosaurs.Capacity);
 
-            list.Add("123");
-            list.Add("123");
-            list.Add("123");
-            list.Add("123");
-            list[6] = "123";
-            list.Insert(2, "4");
-             Console.WriteLine(list.Count);
-            Console.WriteLine(list[6]);
+            dinosaurs.Add("Tyrannosaurus");
+            dinosaurs.Add("Amargasaurus");
+            dinosaurs.Add("Mamenchisaurus");
+            dinosaurs.Add("Deinonychus");
+            dinosaurs.Add("Compsognathus");
+
+            dinosaurs.CopyTo(1, array, 1, 2);
+
+            Console.WriteLine();
+            foreach (string dinosaur in dinosaurs)
+            {
+                Console.WriteLine(dinosaur);
+            }
+
+            Console.WriteLine("\nCapacity: {0}", dinosaurs.Capacity);
+            Console.WriteLine("Count: {0}", dinosaurs.Count);
+
+            Console.WriteLine("\nContains(\"Deinonychus\"): {0}",
+                dinosaurs.Contains("Deinonychus"));
+
+            Console.WriteLine("\nInsert(2, \"Compsognathus\")");
+            dinosaurs.Insert(2, "Compsognathus");
+
+            Console.WriteLine();
+            foreach (string dinosaur in dinosaurs)
+            {
+                Console.WriteLine(dinosaur);
+            }
+
+            Console.WriteLine("\ndinosaurs[3]: {0}", dinosaurs[5]);
+
+            Console.WriteLine("\nRemove(\"Compsognathus\")");
+            dinosaurs.Remove("Compsognathus");
+
+            Console.WriteLine();
+            foreach (string dinosaur in dinosaurs)
+            {
+                Console.WriteLine(dinosaur);
+            }
+
+            dinosaurs.TrimExcess();
+            Console.WriteLine("\nTrimExcess()");
+            Console.WriteLine("Capacity: {0}", dinosaurs.Capacity);
+            Console.WriteLine("Count: {0}", dinosaurs.Count);
+
+            dinosaurs.Clear();
+            Console.WriteLine("\nClear()");
+            Console.WriteLine("Capacity: {0}", dinosaurs.Capacity);
+            Console.WriteLine("Count: {0}", dinosaurs.Count);
         }
     }
 }
