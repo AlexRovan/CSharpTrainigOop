@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ArrayListTask
 {
@@ -116,7 +115,7 @@ namespace ArrayListTask
 
             for (int i = index; i < length; i++)
             {
-                if (item.Equals(items[i]))
+                if (object.Equals(item, items[i]))
                 {
                     return i;
                 }
@@ -139,7 +138,7 @@ namespace ArrayListTask
 
             for (int i = index; i <= count; i++)
             {
-                if (item.Equals(items[i]))
+                if (object.Equals(item, items[i]))
                 {
                     return i;
                 }
