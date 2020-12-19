@@ -9,7 +9,8 @@ namespace CSVTask
         {
             if (args.Length < 2)
             {
-                throw new ArgumentException(nameof(args), "Аргументы программы указаны не полностью. Необходимо указать путь до Csv файла(1) и путь выходного html файла(2).");
+                Console.WriteLine("Аргументы программы указаны не полностью. Необходимо указать путь до Csv файла(1) и путь выходного html файла(2).");
+                return;
             }
 
             try

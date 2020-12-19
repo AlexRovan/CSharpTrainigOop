@@ -63,7 +63,7 @@ namespace ListTask
 
         private void CheckIndex(int index)
         {
-            if (index < 0 || index > length - 1)
+            if (index < 0 || index >= length)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), $"Указанного индекса - {index} нет в списке. Доступны индексы от 0 до {length - 1}");
             }
@@ -135,10 +135,10 @@ namespace ListTask
         {
             if (length == 0)
             {
-                return true;
+                return false;
             }
 
-            if (object.Equals(data, head.Data))
+            if (Equals(data, head.Data))
             {
                 DeleteFirst();
                 return true;
@@ -146,7 +146,7 @@ namespace ListTask
 
             for (ListItem<T> item = head, previousItem = null; item != null; previousItem = item, item = item.Next)
             {
-                if (object.Equals(data, item.Data))
+                if (Equals(data, item.Data))
                 {
                     previousItem.Next = item.Next;
                     length--;
@@ -195,13 +195,14 @@ namespace ListTask
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
+            sb.Append("[");
 
             for (ListItem<T> item = head; item != null; item = item.Next)
             {
                 sb.Append(item.Data).Append(", ");
             }
 
-            return sb.Remove(sb.Length - 2, 2).ToString();
+            return sb.Remove(sb.Length - 2, 2).Append("]").ToString();
         }
     }
 }
