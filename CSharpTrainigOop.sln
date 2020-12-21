@@ -22,9 +22,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListTask", "ListTask\ListTa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaTask", "LambdaTask\LambdaTask.csproj", "{E2B8CA4A-795A-4919-8042-98DD4E31EFEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashTableTask", "HashTableTask\HashTableTask.csproj", "{87C530CF-A05A-4D4B-9881-46B69924E163}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HashTableTask", "HashTableTask\HashTableTask.csproj", "{87C530CF-A05A-4D4B-9881-46B69924E163}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayListTask", "ArrayListTask\ArrayListTask.csproj", "{3EE5AB3F-B00F-443A-9E1E-A6F2A396544C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArrayListTask", "ArrayListTask\ArrayListTask.csproj", "{3EE5AB3F-B00F-443A-9E1E-A6F2A396544C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemperatureForm", "TemperatureForm\TemperatureForm.csproj", "{C444D3B4-5D43-4D74-88C7-8FB7112B3EF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +74,10 @@ Global
 		{3EE5AB3F-B00F-443A-9E1E-A6F2A396544C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EE5AB3F-B00F-443A-9E1E-A6F2A396544C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EE5AB3F-B00F-443A-9E1E-A6F2A396544C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C444D3B4-5D43-4D74-88C7-8FB7112B3EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C444D3B4-5D43-4D74-88C7-8FB7112B3EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C444D3B4-5D43-4D74-88C7-8FB7112B3EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C444D3B4-5D43-4D74-88C7-8FB7112B3EF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
