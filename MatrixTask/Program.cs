@@ -8,7 +8,7 @@ namespace MatrixTask
         static void Main(string[] args)
         {
             Vector vector1 = new Vector(new double[3] { 2, 5, 9 });
-            Vector vector2 = new Vector(new double[4] { 3, 4, 4, 5 });
+            Vector vector2 = new Vector(new double[3] { 3, 4, 4 });
             Vector vector3 = new Vector(new double[3] { 7, 2, 3 });
 
             double[,] array =
@@ -30,8 +30,8 @@ namespace MatrixTask
             Matrix copyMatrix = new Matrix(matrix1);
             Console.WriteLine($"Копия матрицы1: {copyMatrix}");
 
-           // Console.WriteLine($"Определитель матрицы1: {matrix1.GetDeterminant()}");
-           // Console.WriteLine($"Определитель матрицы2: {matrix2.GetDeterminant()}");
+            Console.WriteLine($"Определитель матрицы1: {matrix1.GetDeterminant()}");
+            Console.WriteLine($"Определитель матрицы2: {matrix2.GetDeterminant()}");
 
             Console.WriteLine($"Столбец 2 матрицы1 {matrix1.GetColumn(2)}");
             Console.WriteLine($"Строка 3 матрицы1 {matrix1.GetLine(2)}");
