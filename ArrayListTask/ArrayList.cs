@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ArrayListTask
 {
-    class ArrayList<T> : IList<T>
+    public class ArrayList<T> : IList<T>
     {
         private T[] items;
-        private int length;
-        private int modCount;
+        private int modifyCount;
+        public int Count { get; private set; }
 
         public ArrayList(int capacity)
         {
+            if (capacity <= 0)
+            {
+                throw new ArgumentException($"Емкость списка {capacity} должна быть больше 0.", nameof(capacity));
+            }
+
             items = new T[capacity];
         }
 
@@ -19,23 +25,22 @@ namespace ArrayListTask
         {
             get
             {
-                if (items.Length < length)
-                {
-                    throw new ArgumentOutOfRangeException($"Емкость массива {items.Length} не может быть меньше кол-ва элементов {length}");
-                }
                 return items.Length;
+            }
+            set
+            {
+                if (value < Count)
+                {
+                    throw new ArgumentOutOfRangeException($"Емкость массива {items.Length} не может быть меньше кол-ва элементов {Count}");
+                }
+
+                Array.Resize(ref items, value);
             }
         }
 
-        public int Count
-        {
-            get { return length; }
-        }
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+
+        public bool IsReadOnly => false;
 
         public T this[int index]
         {
@@ -54,9 +59,9 @@ namespace ArrayListTask
 
         private void CheckIndex(int index)
         {
-            if (index < 0 || index > length - 1)
+            if (index < 0 || index >= Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Индекс выходит за пределы массива от 0 до {length - 1}. Получено: {index}");
+                throw new ArgumentOutOfRangeException(nameof(index), $"Индекс выходит за пределы массива от 0 до {Count - 1}. Получено: {index}");
             }
         }
 
@@ -76,52 +81,24 @@ namespace ArrayListTask
             }
         }
 
-        private void CheckArrayNull(T[] obj)
+        private static void CheckArrayForNull(T[] array)
         {
-            if (object.Equals(obj, null))
+            if (Equals(array, null))
             {
-                throw new ArgumentNullException(nameof(obj), "Передан пустой массив");
+                throw new ArgumentNullException(nameof(array), "Передан null массив");
             }
         }
 
-        public void Add(T obj)
+        public void Add(T item)
         {
-            if (length >= items.Length)
+            if (Count >= items.Length)
             {
                 IncreaseCapacity();
             }
 
-            items[length] = obj;
-            length++;
-            modCount++;
-        }
-
-        public int IndexOf(T item)
-        {
-            for (int i = 0; i < length; i++)
-            {
-                if (object.Equals(items[i], item))
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
-        public int IndexOf(T item, int index)
-        {
-            CheckIndex(index);
-
-            for (int i = index; i < length; i++)
-            {
-                if (object.Equals(item, items[i]))
-                {
-                    return i;
-                }
-            }
-
-            return -1;
+            items[Count] = item;
+            Count++;
+            modifyCount++;
         }
 
         public int IndexOf(T item, int index, int count)
@@ -129,16 +106,16 @@ namespace ArrayListTask
             CheckIndex(index);
             CheckCountLessZero(count);
 
-            if ((index + count) >= length)
+            if ((index + count) > Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(count), $"Индекс: {index} и кол-во итераций: {count} должны попадать в размер списка {length}.");
+                throw new ArgumentOutOfRangeException(nameof(count), $"Индекс: {index} и кол-во итераций: {count} должны попадать в размер списка {Count}.");
             }
 
             CheckCountLessZero(count);
 
-            for (int i = index; i <= count; i++)
+            for (int i = index; i < count; i++)
             {
-                if (object.Equals(item, items[i]))
+                if (Equals(item, items[i]))
                 {
                     return i;
                 }
@@ -147,144 +124,144 @@ namespace ArrayListTask
             return -1;
         }
 
+        public int IndexOf(T item)
+        {
+            return IndexOf(item, 0, Count);
+        }
+
+        public int IndexOf(T item, int index)
+        {
+            return IndexOf(item, index, Count);
+        }
+
         public void RemoveAt(int index)
         {
             CheckIndex(index);
 
-            if (index < length - 1)
+            if (index < Count - 1)
             {
-                Array.Copy(items, index + 1, items, index, length - index - 1);
+                Array.Copy(items, index + 1, items, index, Count - index - 1);
             }
-
-            modCount++;
-            length--;
+            
+            modifyCount++;
+            Count--;
+            items[Count] = default(T);
         }
 
         private void IncreaseCapacity()
         {
-            T[] old = items;
-            items = new T[old.Length * 2];
-            Array.Copy(old, 0, items, 0, old.Length);
+            Capacity = items.Length * 2;
         }
 
         public void Insert(int index, T item)
         {
+            if (Count == index)
+            {
+                Add(item);
+                return;
+            }
+
             CheckIndex(index);
 
-            if (length >= items.Length + 1)
+            if (Count >= items.Length)
             {
                 IncreaseCapacity();
             }
 
-            Array.Copy(items, index, items, index + 1, length - index);
+            Array.Copy(items, index, items, index + 1, Count - index);
             items[index] = item;
-            length++;
-            modCount++;
+            Count++;
+            modifyCount++;
         }
 
         public void Clear()
         {
-            items = new T[items.Length];
-            length = 0;
-            modCount++;
+            Array.Clear(items, 0, items.Length);
+            Count = 0;
+            modifyCount++;
         }
 
         public bool Contains(T item)
         {
-            foreach (T e in items)
+            if (IndexOf(item) != -1)
             {
-                if (object.Equals(e, item))
-                {
-                    return true;
-                }
+                return true;
             }
 
             return false;
         }
 
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            CheckArrayNull(array);
-            CheckArrayIndexLessZero(arrayIndex);
-
-            if (length > array.Length - arrayIndex)
-            {
-                throw new ArgumentException(nameof(array), $"Число элементов в исходной коллекции для копирования {length} больше доступного места {array.Length - arrayIndex}");
-            }
-
-            Array.Copy(items, 0, array, arrayIndex, length);
-        }
-
         public void CopyTo(int index, T[] array, int arrayIndex, int count)
         {
-            CheckArrayNull(array);
+            CheckArrayForNull(array);
             CheckArrayIndexLessZero(arrayIndex);
             CheckCountLessZero(count);
+            CheckIndex(index);
 
-            if (index < 0)
+            if (count > Count - index)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Параметр index должен быть положительным числом. Получено: {index}");
-            }
-
-            if (index >= length)
-            {
-                throw new ArgumentException($"Номер индекса {index} не может быть больше длинны списка {length}", nameof(index));
-            }
-
-            if (count > length - index)
-            {
-                throw new ArgumentException(nameof(array), $"Число элементов для копирования {count} больше возможного {length - index}");
+                throw new ArgumentOutOfRangeException(nameof(array), $"Число элементов для копирования {count} больше возможного {Count - index}");
             }
 
             if (count > array.Length - arrayIndex)
             {
-                throw new ArgumentException(nameof(array), $"Число элементов в исходной коллекции для копирования {count} больше доступного места {array.Length - arrayIndex}");
+                throw new ArgumentOutOfRangeException(nameof(array), $"Число элементов в исходной коллекции для копирования {count} больше доступного места {array.Length - arrayIndex}");
             }
 
             Array.Copy(items, index, array, arrayIndex, count);
         }
 
-        public void CopyTo(T[] array)
+        public void CopyTo(T[] array, int arrayIndex)
         {
-            CheckArrayNull(array);
+            CopyTo(0, array, arrayIndex, Count);
+        }
 
-            if (length > array.Length)
-            {
-                throw new ArgumentException(nameof(array), $"Число элементов в исходной коллекции для копирования {items.Length} больше доступного места {array.Length}");
-            }
-
-            Array.Copy(items, array, length);
+        public void CopyTo(T[] array)
+        {         
+            CopyTo(0, array, 0, Count);
         }
 
         public void TrimExcess()
         {
-            T[] old = items;
-            items = new T[length];
-            Array.Copy(old, 0, items, 0, length);
+            if (Count != Capacity || Count < 0.1 * Capacity)
+            {
+                Capacity = Count;
+            }
         }
 
         public bool Remove(T item)
         {
-            for (int i = 0; i < items.Length; i++)
+            int index = IndexOf(item);
+
+            if (index != -1)
             {
-                if (object.Equals(items[i], item))
-                {
-                    RemoveAt(i);
-                    modCount++;
-                    return true;
-                }
+                RemoveAt(index);
+                return true;
             }
 
             return false;
         }
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
+
+            for (int i = 0; i < Count; i++)
+            {
+                sb.Append(items[i]).Append(", ");
+            }
+
+            return sb.Remove(sb.Length - 2, 2).Append("]").ToString();
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
-            int count = modCount;
+            int currentModifyCount = modifyCount;
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < Count; i++)
             {
-                if (count != modCount)
+                if (currentModifyCount != modifyCount)
                 {
                     throw new InvalidOperationException("Коллекция была изменена. Операция итерации не может быть выполнена.");
                 }
