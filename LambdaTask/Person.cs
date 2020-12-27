@@ -1,7 +1,7 @@
 ﻿
 namespace LambdaTask
 {
-    class Person
+    public class Person
     {
         public string Name { get; }
 
@@ -11,6 +11,11 @@ namespace LambdaTask
         {
             Name = name;
             Age = age;
+        }
+
+        public override string ToString()
+        {
+            return $"Имя {Name}, Возраст {Age}";
         }
     }
 }

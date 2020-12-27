@@ -6,7 +6,7 @@ namespace ArrayListTask
     {
         public static void Main()
         {
-            ArrayList<string> dinosaurs = new ArrayList<string>(10);
+            ArrayList<string> dinosaurs = new ArrayList<string>(2);
             string[] array = new string[5];
 
             Console.WriteLine("Capacity: {0}", dinosaurs.Capacity);

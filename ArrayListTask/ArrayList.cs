@@ -38,8 +38,6 @@ namespace ArrayListTask
             }
         }
 
-
-
         public bool IsReadOnly => false;
 
         public T this[int index]
