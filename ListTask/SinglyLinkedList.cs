@@ -194,6 +194,11 @@ namespace ListTask
 
         public override string ToString()
         {
+            if(length == 0)
+            {
+                return "[]";
+            }
+
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
 

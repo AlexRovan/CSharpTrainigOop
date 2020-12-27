@@ -244,6 +244,11 @@ namespace ArrayListTask
 
         public override string ToString()
         {
+            if (Count == 0)
+            {
+                return "[]";
+            }
+
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
 
