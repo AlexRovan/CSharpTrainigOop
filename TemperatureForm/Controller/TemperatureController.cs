@@ -1,41 +1,42 @@
 ﻿using System;
 using TemperatureForm.Model;
+using TemperatureForm.View;
 
 namespace TemperatureForm.Controller
 {
-    public class TemperatureController
+    public class TemperatureController:ITemperatureController
     {
-        private TemperatureConverter temperatureConverter = new TemperatureConverter();
-        private DesktopView view;
-       
+        private ITemperatureConverter temperatureConverter = new TemperatureConverter();
+        private ITemperatureDesktopView view;
+
         public TemperatureController(TemperatureConverter temperatureConverter)
         {
             this.temperatureConverter = temperatureConverter;
         }
 
-        public void SetView(DesktopView view)
+        public void SetView(TemperatureDesktopView view)
         {
             this.view = view;
         }
 
-        public void ConvertTemperature(double temperature, TemperatureScales scaleFrom, TemperatureScales scaleTo)
+        public void ConvertTemperature(double temperature, TemperatureScale scaleFrom, TemperatureScale scaleTo)
         {
             double result = temperatureConverter.Convert(temperature, scaleFrom, scaleTo);
-            
+
             switch (scaleTo.Name)
             {
-                case TemperatureConverter.kelvinScaleName:
+                case TemperatureConverter.KelvinScaleName:
 
-                    view.SetResultTemperature($"Результат в градусах Кельвина {result}");
+                    view.SetResultTemperature($"в градусах Кельвина", result);
                     break;
-                case TemperatureConverter.fahrenheitScaleName:
+                case TemperatureConverter.FahrenheitScaleName:
 
-                    view.SetResultTemperature($"Результат в градусах Фаренгейта {result}");
+                    view.SetResultTemperature($"в градусах Фаренгейта", result);
                     break;
-                case TemperatureConverter.celsiusScaleName:
+                case TemperatureConverter.CelsiusScaleName:
 
-                    view.SetResultTemperature($"Результат в градусах Цельсия {result}");
-                    break;       
+                    view.SetResultTemperature($"в градусах Цельсия", result);
+                    break;
                 default:
                     throw new ArgumentException("Указана некорретная температурная шкала.");
             }

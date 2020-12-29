@@ -46,18 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\ITemperatureController.cs" />
     <Compile Include="Controller\TemperatureController.cs" />
+    <Compile Include="Model\ITemperatureConverter.cs" />
     <Compile Include="Model\TemperatureConverter.cs" />
-    <Compile Include="View\DesktopView.cs">
+    <Compile Include="Model\TemperatureScale.cs" />
+    <Compile Include="Model\Temperature\Celsius.cs" />
+    <Compile Include="Model\Temperature\Fahrenheit.cs" />
+    <Compile Include="Model\Temperature\Kelvin.cs" />
+    <Compile Include="View\TemperatureDesktopView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\DesktopView.Designer.cs">
-      <DependentUpon>DesktopView.cs</DependentUpon>
+    <Compile Include="View\TemperatureDesktopView.Designer.cs">
+      <DependentUpon>TemperatureDesktopView.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="View\DesktopView.resx">
-      <DependentUpon>DesktopView.cs</DependentUpon>
+    <Compile Include="View\ITemperatureDesktopView.cs" />
+    <EmbeddedResource Include="View\TemperatureDesktopView.resx">
+      <DependentUpon>TemperatureDesktopView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

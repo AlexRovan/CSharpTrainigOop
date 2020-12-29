@@ -1,78 +1,72 @@
 ﻿using System;
+using TemperatureForm.Model.Temperature;
 
 namespace TemperatureForm.Model
 {
-    public class TemperatureScales
+    public class TemperatureConverter : ITemperatureConverter
     {
-        public string Description { get; set; }
+        public const string KelvinScaleName = "Kelvin";
+        public const string CelsiusScaleName = "Celsius";
+        public const string FahrenheitScaleName = "Fahrenheit";
+        private const double MinimumCelsiusTemperature = -273.15;
+        private const double MinimumKelvinTemperature = 0;
+        private const double MinimumFahrenheitTemperature = -459.67;
 
-        public string Name { get; set; }
-    }
-
-    public class TemperatureConverter
-    {
-        public const string kelvinScaleName  = "Kelvin";
-        public const string celsiusScaleName = "Celsius";
-        public const string fahrenheitScaleName = "Fahrenheit";
-        private const double minimumCelsiusTemperature = -273.15;
-        private const double minimumKelvinTemperature = 0;
-        private const double minimumFahrenheitTemperature = -459.67;
-
-        public double Convert(double temperature, TemperatureScales scaleFrom, TemperatureScales scaleTo)
+        public double Convert(double temperature, TemperatureScale scaleFrom, TemperatureScale scaleTo)
         {
             switch (scaleFrom.Name)
             {
-                case celsiusScaleName:
+                case CelsiusScaleName:
 
-                    if (temperature < minimumCelsiusTemperature)
+                    if (temperature < MinimumCelsiusTemperature)
                     {
                         throw new Exception("Температура не может быть меньше абсолютного 0.");
                     }
 
-                    if (Equals(scaleTo.Name, kelvinScaleName))
+                    if (Equals(scaleTo.Name, KelvinScaleName))
                     {
-                        return ConvertCelsiusToKelvin(temperature);
+                        return Celsius.ConvertToKelvin(temperature);
                     }
 
-                    if (Equals(scaleTo.Name, fahrenheitScaleName))
+                    if (Equals(scaleTo.Name, FahrenheitScaleName))
                     {
-                        return ConvertCelsiusToFahrenheit(temperature);
+                        return Celsius.ConvertToFahrenheit(temperature);
                     }
 
                     break;
-                case fahrenheitScaleName:
+                case FahrenheitScaleName:
 
-                    if (temperature < minimumFahrenheitTemperature)
+                    if (temperature < MinimumFahrenheitTemperature)
                     {
                         throw new Exception("Температура не может быть меньше абсолютного 0.");
                     }
 
-                    if (Equals(scaleTo.Name, kelvinScaleName))
+                    if (Equals(scaleTo.Name, KelvinScaleName))
                     {
-                        return ConvertFahrenheitToKelvin(temperature);
+                        return Fahrenheit.ConvertToKelvin(temperature);
                     }
 
-                    if (Equals(scaleTo.Name, celsiusScaleName))
+                    if (Equals(scaleTo.Name, CelsiusScaleName))
                     {
-                        return ConvertFahrenheitToCelsius(temperature);
+                        return Fahrenheit.ConvertToCelsius(temperature);
                     }
 
                     break;
-                case kelvinScaleName:
+                case KelvinScaleName:
 
-                    if (temperature < minimumKelvinTemperature)
+                    if (temperature < MinimumKelvinTemperature)
                     {
                         throw new Exception("Теспература не может быть меньше абсолютного 0.");
                     }
 
-                    if (Equals(scaleTo.Name, fahrenheitScaleName))
+                    if (Equals(scaleTo.Name, FahrenheitScaleName))
                     {
-                        return ConvertKelvinToFahrenheit(temperature);
+                        return Kelvin.ConvertToFahrenheit(temperature);
                     }
 
-                    if (Equals(scaleTo.Name, celsiusScaleName))
+                    if (Equals(scaleTo.Name, CelsiusScaleName))
                     {
-                        return ConvertKelvinToCelsius(temperature);
+                        return Kelvin.ConvertToCelsius(temperature);
                     }
 
                     break;
@@ -81,36 +75,6 @@ namespace TemperatureForm.Model
 
             }
             return temperature;
-        }
-
-        private double ConvertCelsiusToKelvin(double celsius)
-        {
-            return celsius + 273.15;
-        }
-
-        private double ConvertCelsiusToFahrenheit(double celsius)
-        {
-            return celsius * 9 / 5 + 32;
-        }
-
-        private double ConvertKelvinToCelsius(double kelvin)
-        {
-            return kelvin - 273.15;
-        }
-
-        private double ConvertKelvinToFahrenheit(double kelvin)
-        {
-            return kelvin * 9 / 5 - 459.67;
-        }
-
-        private double ConvertFahrenheitToCelsius(double fahrenheit)
-        {
-            return (fahrenheit - 32) * 5 / 9;
-        }
-
-        private double ConvertFahrenheitToKelvin(double fahrenheit)
-        {
-            return (fahrenheit + 459.67) * 5 / 9;
         }
     }
 }

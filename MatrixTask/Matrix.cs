@@ -27,9 +27,9 @@ namespace MatrixTask
         {
             rows = new Vector[matrix.rows.Length];
 
-            for (int i = 0; i < matrix.GetRowsCount(); i++)
+            for (int i = 0; i < matrix.rows.Length; i++)
             {
-                rows[i] = new Vector(matrix.GetLine(i));
+                rows[i] = new Vector(matrix.rows[i]);
             }
         }
 
@@ -72,7 +72,6 @@ namespace MatrixTask
                 for (int j = 0; j < vectors[i].GetSize(); j++)
                 {
                     array[j] = vectors[i].GetElementByIndex(j);
-
                 }
 
                 rows[i] = new Vector(array);
@@ -134,7 +133,7 @@ namespace MatrixTask
             return new Vector(array);
         }
 
-        public Vector GetLine(int index)
+        public Vector GetRow(int index)
         {
             if (index < 0 || index > GetRowsCount() - 1)
             {
@@ -146,22 +145,14 @@ namespace MatrixTask
 
         public void Transpose()
         {
-            Vector[] transportedRows = new Vector[GetColumnsCount()];
+            Vector[] transposedRows = new Vector[GetColumnsCount()];
 
             for (int i = 0; i < GetColumnsCount(); i++)
             {
-                Vector row = new Vector(GetRowsCount());
-
-                for (int j = 0; j < GetRowsCount(); j++)
-                {
-                    double temp = rows[j].GetElementByIndex(i);
-                    row.SetElementByIndex(j, temp);
-                }
-
-                transportedRows[i] = row;
+                transposedRows[i] = GetColumn(i);
             }
 
-            rows = transportedRows;
+            rows = transposedRows;
         }
 
         public Vector MultiplyByVector(Vector vector)
@@ -183,7 +174,7 @@ namespace MatrixTask
 
         public void MultiplyByScalar(double number)
         {
-            foreach(Vector e in rows)
+            foreach (Vector e in rows)
             {
                 e.MultiplyByScalar(number);
             }
@@ -191,7 +182,7 @@ namespace MatrixTask
 
         public void Add(Matrix matrix)
         {
-            СheckMatrixDimension(matrix);
+            CheckMatrixDimension(matrix);
 
             for (int i = 0; i < rows.Length; i++)
             {
@@ -201,7 +192,7 @@ namespace MatrixTask
 
         public void Subtract(Matrix matrix)
         {
-            СheckMatrixDimension(matrix);
+            CheckMatrixDimension(matrix);
 
             for (int i = 0; i < rows.Length; i++)
             {
@@ -303,14 +294,14 @@ namespace MatrixTask
             {
                 for (int j = 0; j < matrix1.GetColumnsCount(); j++)
                 {
-                    array[j, i] = Vector.GetScalarProduct(matrix2.GetColumn(i), matrix1.GetLine(j));
+                    array[j, i] = Vector.GetScalarProduct(matrix2.GetColumn(i), matrix1.rows[j]);
                 }
             }
 
             return new Matrix(array);
         }
 
-        private void СheckMatrixDimension(Matrix matrix)
+        private void CheckMatrixDimension(Matrix matrix)
         {
             if (matrix.GetRowsCount() != GetRowsCount() || matrix.GetColumnsCount() != GetColumnsCount())
             {
@@ -324,7 +315,7 @@ namespace MatrixTask
             if (matrix1.GetRowsCount() != matrix2.GetRowsCount() || matrix1.GetColumnsCount() != matrix2.GetColumnsCount())
             {
                 throw new ArgumentException($"Нельзя выполнять операцию с матрицами размерами {matrix2.GetRowsCount()}*{matrix2.GetColumnsCount()}" +
-                    $"на {matrix1.GetColumnsCount()}*{matrix1.GetRowsCount()}. Количество строк матрицы 1 должно быть равным количеству столбцов матрицы 2");
+                    $"и {matrix1.GetColumnsCount()}*{matrix1.GetRowsCount()}. Количество строк и столбцов матрицы 1 должно быть равным количеству строк и столбцов матрицы 2");
             }
         }
     }

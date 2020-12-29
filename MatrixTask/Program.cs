@@ -10,6 +10,7 @@ namespace MatrixTask
             Vector vector1 = new Vector(new double[3] { 2, 5, 9 });
             Vector vector2 = new Vector(new double[3] { 3, 4, 4 });
             Vector vector3 = new Vector(new double[3] { 7, 2, 3 });
+            Vector vector4 = new Vector(new double[7]);
 
             double[,] array =
             {
@@ -34,7 +35,7 @@ namespace MatrixTask
             Console.WriteLine($"Определитель матрицы2: {matrix2.GetDeterminant()}");
 
             Console.WriteLine($"Столбец 2 матрицы1 {matrix1.GetColumn(2)}");
-            Console.WriteLine($"Строка 3 матрицы1 {matrix1.GetLine(2)}");
+            Console.WriteLine($"Строка 3 матрицы1 {matrix1.GetRow(2)}");
 
             matrix1.Transpose();
             Console.WriteLine($"Транспонированая матрица1: {matrix1}");
@@ -48,7 +49,7 @@ namespace MatrixTask
             matrix3.MultiplyByScalar(2);
             Console.WriteLine($"Матрицу3 умножили на 2: {matrix3}");
 
-            Console.WriteLine($"Матрицу3 умножили на вектор1: {matrix3.MultiplyByVector(vector1)}");
+            Console.WriteLine($"Матрицу3 умножили на вектор1: {matrix3.MultiplyByVector(vector3)}");
 
             Console.WriteLine($"Произведение матриц 1 и 2 {Matrix.GetProduct(matrix1, matrix2)}");
             Console.WriteLine($"Сумма матриц 1 и 2 {Matrix.GetSum(matrix1, matrix2)}");

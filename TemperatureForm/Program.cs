@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TemperatureForm.Controller;
 using TemperatureForm.Model;
@@ -21,7 +18,7 @@ namespace TemperatureForm
 
             var temperatureConverter = new TemperatureConverter();
             var controller = new TemperatureController(temperatureConverter);
-            var view = new DesktopView(controller);
+            var view = new TemperatureDesktopView(controller);
 
             controller.SetView(view);
           
