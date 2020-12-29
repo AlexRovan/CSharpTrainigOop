@@ -27,15 +27,15 @@ namespace TemperatureForm.Controller
             {
                 case TemperatureConverter.KelvinScaleName:
 
-                    view.SetResultTemperature($"в градусах Кельвина", result);
+                    view.SetResultTemperature("в градусах Кельвина", result);
                     break;
                 case TemperatureConverter.FahrenheitScaleName:
 
-                    view.SetResultTemperature($"в градусах Фаренгейта", result);
+                    view.SetResultTemperature("в градусах Фаренгейта", result);
                     break;
                 case TemperatureConverter.CelsiusScaleName:
 
-                    view.SetResultTemperature($"в градусах Цельсия", result);
+                    view.SetResultTemperature("в градусах Цельсия", result);
                     break;
                 default:
                     throw new ArgumentException("Указана некорретная температурная шкала.");
