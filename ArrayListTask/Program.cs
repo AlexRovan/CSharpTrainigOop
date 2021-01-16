@@ -6,7 +6,7 @@ namespace ArrayListTask
     {
         public static void Main()
         {
-            ArrayList<string> dinosaurs = new ArrayList<string>(2);
+            ArrayList<string> dinosaurs = new ArrayList<string>();
             string[] array = new string[5];
 
             Console.WriteLine("Capacity: {0}", dinosaurs.Capacity);
@@ -18,12 +18,20 @@ namespace ArrayListTask
             dinosaurs.Add("Compsognathus");
 
             dinosaurs.CopyTo(1, array, 1, 2);
+            foreach (var e in array)
+            {
+                if (e != null)
+                {
+                    Console.WriteLine(e);
+                }
+            }
 
             Console.WriteLine();
             Console.WriteLine(dinosaurs);
-            
+
             Console.WriteLine("Capacity: {0}", dinosaurs.Capacity);
             Console.WriteLine("Count: {0}", dinosaurs.Count);
+            Console.WriteLine("Index: {0}", dinosaurs.IndexOf("Compsognathus"));
 
             Console.WriteLine("Contains(\"Deinonychus\"): {0}", dinosaurs.Contains("Deinonychus"));
 

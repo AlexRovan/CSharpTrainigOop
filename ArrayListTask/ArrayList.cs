@@ -8,17 +8,24 @@ namespace ArrayListTask
     public class ArrayList<T> : IList<T>
     {
         private T[] items;
-        private int modifyCount;
+
+        private int modCount;
+
         public int Count { get; private set; }
 
         public ArrayList(int capacity)
         {
-            if (capacity <= 0)
+            if (capacity < 0)
             {
-                throw new ArgumentException($"Емкость списка {capacity} должна быть больше 0.", nameof(capacity));
+                throw new ArgumentException($"Емкость списка {capacity} должна быть положительным числом.", nameof(capacity));
             }
 
             items = new T[capacity];
+        }
+
+        public ArrayList()
+        {
+            items = new T[0];
         }
 
         public int Capacity
@@ -31,7 +38,7 @@ namespace ArrayListTask
             {
                 if (value < Count)
                 {
-                    throw new ArgumentOutOfRangeException($"Емкость массива {items.Length} не может быть меньше кол-ва элементов {Count}");
+                    throw new ArgumentOutOfRangeException("value", $"Емкость списка {items.Length} не может быть меньше кол-ва элементов {Count}");
                 }
 
                 Array.Resize(ref items, value);
@@ -47,56 +54,44 @@ namespace ArrayListTask
                 CheckIndex(index);
                 return items[index];
             }
-
             set
             {
                 CheckIndex(index);
                 items[index] = value;
+                modCount++;
             }
         }
 
         private void CheckIndex(int index)
         {
-            if (index < 0 || index >= Count)
+            if (index < 0 || index > Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), $"Индекс выходит за пределы массива от 0 до {Count - 1}. Получено: {index}");
+                throw new ArgumentOutOfRangeException(nameof(index), $"Индекс выходит за пределы списка от 0 до {Count}. Получено: {index}");
             }
         }
 
-        private void CheckArrayIndexLessZero(int arrayIndex)
+        static private void CheckArrayIndexLessZero(int arrayIndex)
         {
             if (arrayIndex < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(arrayIndex), $"Начальный индекс массива должен быть положительным числом. Получено: {arrayIndex}");
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex), $"Начальный индекс списка должен быть положительным числом. Получено: {arrayIndex}");
             }
         }
 
-        private void CheckCountLessZero(int count)
+        static private void CheckCountLessZero(int count)
         {
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(count), $"Диапозон массива должен быть положительным числом. Получено: {count}");
+                throw new ArgumentOutOfRangeException(nameof(count), $"Диапозон списка должен быть положительным числом. Получено: {count}");
             }
         }
 
-        private static void CheckArrayForNull(T[] array)
+        static private void CheckArrayForNull(T[] array)
         {
-            if (Equals(array, null))
+            if (array == null)
             {
-                throw new ArgumentNullException(nameof(array), "Передан null массив");
+                throw new ArgumentNullException(nameof(array), "Передан null список");
             }
-        }
-
-        public void Add(T item)
-        {
-            if (Count >= items.Length)
-            {
-                IncreaseCapacity();
-            }
-
-            items[Count] = item;
-            Count++;
-            modifyCount++;
         }
 
         public int IndexOf(T item, int index, int count)
@@ -108,8 +103,6 @@ namespace ArrayListTask
             {
                 throw new ArgumentOutOfRangeException(nameof(count), $"Индекс: {index} и кол-во итераций: {count} должны попадать в размер списка {Count}.");
             }
-
-            CheckCountLessZero(count);
 
             for (int i = index; i < count; i++)
             {
@@ -140,25 +133,31 @@ namespace ArrayListTask
             {
                 Array.Copy(items, index + 1, items, index, Count - index - 1);
             }
-            
-            modifyCount++;
+
+            modCount++;
             Count--;
-            items[Count] = default(T);
+            items[Count] = default;
+        }
+
+        public void Add(T item)
+        {
+            Insert(Count, item);
         }
 
         private void IncreaseCapacity()
         {
-            Capacity = items.Length * 2;
+            if (items.Length == 0)
+            {
+                Capacity = 1;
+            }
+            else
+            {
+                Capacity = items.Length * 2;
+            }
         }
 
         public void Insert(int index, T item)
         {
-            if (Count == index)
-            {
-                Add(item);
-                return;
-            }
-
             CheckIndex(index);
 
             if (Count >= items.Length)
@@ -166,27 +165,29 @@ namespace ArrayListTask
                 IncreaseCapacity();
             }
 
-            Array.Copy(items, index, items, index + 1, Count - index);
-            items[index] = item;
+            if (Count == index)
+            {
+                items[Count] = item;
+            }
+            else
+            {
+                Array.Copy(items, index, items, index + 1, Count - index);
+                items[index] = item;
+            }
             Count++;
-            modifyCount++;
+            modCount++;
         }
 
         public void Clear()
         {
-            Array.Clear(items, 0, items.Length);
+            Array.Clear(items, 0, Count);
             Count = 0;
-            modifyCount++;
+            modCount++;
         }
 
         public bool Contains(T item)
         {
-            if (IndexOf(item) != -1)
-            {
-                return true;
-            }
-
-            return false;
+            return (IndexOf(item) != -1) ? true : false; ;
         }
 
         public void CopyTo(int index, T[] array, int arrayIndex, int count)
@@ -215,13 +216,13 @@ namespace ArrayListTask
         }
 
         public void CopyTo(T[] array)
-        {         
+        {
             CopyTo(0, array, 0, Count);
         }
 
         public void TrimExcess()
         {
-            if (Count != Capacity || Count < 0.1 * Capacity)
+            if (Count != Capacity || Count < 0.9 * Capacity)
             {
                 Capacity = Count;
             }
@@ -260,11 +261,11 @@ namespace ArrayListTask
 
         public IEnumerator<T> GetEnumerator()
         {
-            int currentModifyCount = modifyCount;
+            int currentModifyCount = modCount;
 
             for (int i = 0; i < Count; i++)
             {
-                if (currentModifyCount != modifyCount)
+                if (currentModifyCount != modCount)
                 {
                     throw new InvalidOperationException("Коллекция была изменена. Операция итерации не может быть выполнена.");
                 }
