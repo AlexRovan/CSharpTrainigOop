@@ -1,6 +1,6 @@
 ﻿namespace TemperatureForm
 {
-    partial class TemperatureDesktopView
+    partial class TemperatureView
     {
         /// <summary>
         /// Required designer variable.
@@ -91,8 +91,9 @@
             // temperatureScaleFrom
             // 
             this.temperatureScaleFrom.DisplayMember = "1";
+            this.temperatureScaleFrom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.temperatureScaleFrom.FormattingEnabled = true;
-            this.temperatureScaleFrom.Location = new System.Drawing.Point(293, 19);
+            this.temperatureScaleFrom.Location = new System.Drawing.Point(305, 19);
             this.temperatureScaleFrom.Name = "temperatureScaleFrom";
             this.temperatureScaleFrom.Size = new System.Drawing.Size(109, 21);
             this.temperatureScaleFrom.TabIndex = 5;
@@ -101,8 +102,9 @@
             // temperatureScaleTo
             // 
             this.temperatureScaleTo.DisplayMember = "2";
+            this.temperatureScaleTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.temperatureScaleTo.FormattingEnabled = true;
-            this.temperatureScaleTo.Location = new System.Drawing.Point(293, 48);
+            this.temperatureScaleTo.Location = new System.Drawing.Point(305, 48);
             this.temperatureScaleTo.Name = "temperatureScaleTo";
             this.temperatureScaleTo.Size = new System.Drawing.Size(109, 21);
             this.temperatureScaleTo.TabIndex = 6;
@@ -113,18 +115,18 @@
             this.labelScaleFrom.AutoSize = true;
             this.labelScaleFrom.Location = new System.Drawing.Point(238, 23);
             this.labelScaleFrom.Name = "labelScaleFrom";
-            this.labelScaleFrom.Size = new System.Drawing.Size(48, 13);
+            this.labelScaleFrom.Size = new System.Drawing.Size(61, 13);
             this.labelScaleFrom.TabIndex = 7;
-            this.labelScaleFrom.Text = "в шкале";
+            this.labelScaleFrom.Text = "в градусах";
             // 
             // labelScaleTo
             // 
             this.labelScaleTo.AutoSize = true;
             this.labelScaleTo.Location = new System.Drawing.Point(238, 51);
             this.labelScaleTo.Name = "labelScaleTo";
-            this.labelScaleTo.Size = new System.Drawing.Size(47, 13);
+            this.labelScaleTo.Size = new System.Drawing.Size(58, 13);
             this.labelScaleTo.TabIndex = 8;
-            this.labelScaleTo.Text = "в шкалу";
+            this.labelScaleTo.Text = "в градусы";
             // 
             // labelResultScale
             // 
@@ -134,11 +136,11 @@
             this.labelResultScale.Size = new System.Drawing.Size(0, 13);
             this.labelResultScale.TabIndex = 9;
             // 
-            // DesktopView
+            // TemperatureView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 102);
+            this.ClientSize = new System.Drawing.Size(428, 102);
             this.Controls.Add(this.labelResultScale);
             this.Controls.Add(this.labelScaleTo);
             this.Controls.Add(this.labelScaleFrom);
@@ -150,7 +152,7 @@
             this.Controls.Add(this.initialTemperature);
             this.Controls.Add(this.btnConvert);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Name = "DesktopView";
+            this.Name = "TemperatureView";
             this.Text = "Конвертер температуры";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyDown);
             this.ResumeLayout(false);

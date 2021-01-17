@@ -18,7 +18,7 @@ namespace TemperatureForm
 
             var temperatureConverter = new TemperatureConverter();
             var controller = new TemperatureController(temperatureConverter);
-            var view = new TemperatureDesktopView(controller);
+            var view = new TemperatureView(controller);
 
             controller.SetView(view);
           

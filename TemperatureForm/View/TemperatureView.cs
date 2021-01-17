@@ -7,11 +7,11 @@ using TemperatureForm.View;
 
 namespace TemperatureForm
 {
-    public partial class TemperatureDesktopView : Form, ITemperatureDesktopView
+    public partial class TemperatureView : Form, ITemperatureView
     {
         public ITemperatureController controller;
 
-        public TemperatureDesktopView(ITemperatureController controller)
+        public TemperatureView(ITemperatureController controller)
         {
             List<TemperatureScale> temperatureScales = new List<TemperatureScale>
             {

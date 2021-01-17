@@ -123,19 +123,19 @@ namespace MatrixTask
                 throw new ArgumentOutOfRangeException(nameof(index), $"Столбца с индексом {index} нет в матрице. Доступен диапазон: от 0 до {GetColumnsCount() - 1}");
             }
 
-            double[] array = new double[rows.Length];
+            Vector vector = new Vector(rows.Length);
 
             for (int i = 0; i < GetRowsCount(); i++)
             {
-                array[i] = rows[i].GetElementByIndex(index);
+                vector.SetElementByIndex(i, rows[i].GetElementByIndex(index));
             }
 
-            return new Vector(array);
+            return vector;
         }
 
         public Vector GetRow(int index)
         {
-            if (index < 0 || index > GetRowsCount() - 1)
+            if (index < 0 || index >= GetRowsCount())
             {
                 throw new ArgumentOutOfRangeException(nameof(index), $"Строки с индексом {index} нет в матрице. Досупен диапазаон: от 0 до {GetRowsCount() - 1}");
             }
@@ -162,14 +162,14 @@ namespace MatrixTask
                 throw new ArgumentException($"Размер вектора {vector.GetSize()} должен совпадать с количеством стобцов матрицы {GetColumnsCount()}.");
             }
 
-            double[] array = new double[vector.GetSize()];
+            Vector newVector = new Vector(vector.GetSize());
 
             for (int i = 0; i < GetColumnsCount(); i++)
             {
-                array[i] = Vector.GetScalarProduct(rows[i], vector);
+                newVector.SetElementByIndex(i, Vector.GetScalarProduct(rows[i], vector));
             }
 
-            return new Vector(array);
+            return newVector;
         }
 
         public void MultiplyByScalar(double number)

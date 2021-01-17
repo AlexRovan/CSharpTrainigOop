@@ -1,20 +1,21 @@
 ﻿using System;
 using TemperatureForm.Model;
 using TemperatureForm.View;
+using TemperatureForm.Model;
 
 namespace TemperatureForm.Controller
 {
-    public class TemperatureController:ITemperatureController
+    public class TemperatureController : ITemperatureController
     {
         private ITemperatureConverter temperatureConverter = new TemperatureConverter();
-        private ITemperatureDesktopView view;
+        private ITemperatureView view;
 
         public TemperatureController(TemperatureConverter temperatureConverter)
         {
             this.temperatureConverter = temperatureConverter;
         }
 
-        public void SetView(TemperatureDesktopView view)
+        public void SetView(ITemperatureView view)
         {
             this.view = view;
         }
@@ -38,9 +39,8 @@ namespace TemperatureForm.Controller
                     view.SetResultTemperature("в градусах Цельсия", result);
                     break;
                 default:
-                    throw new ArgumentException("Указана некорретная температурная шкала.");
+                    throw new ArgumentException(scaleTo.Name, "Указана некорретная температурная шкала.");
             }
         }
-
     }
 }

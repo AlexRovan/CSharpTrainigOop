@@ -8,86 +8,65 @@ namespace HashTableTask
 {
     public class HashTable<T> : ICollection<T>
     {
-        private ArrayList<T>[] items;
-        private int modifyCount;
-        private const int capacityArrayList = 10;
+        private ArrayList<T>[] Lists;
+        private int modCount;
+        private const int ArrayListСapacity = 10;
 
         public int Count { get; private set; }
 
-        public int Capacity
+        public HashTable(int arrayLength)
         {
-            get
+            if (arrayLength <= 0)
             {
-                return items.Length;
-            }
-            set
-            {
-                if (value < Count)
-                {
-                    throw new ArgumentOutOfRangeException($"Емкость массива {items.Length} не может быть меньше кол-ва элементов {Count}");
-                }
-
-                Array.Resize(ref items, value);
-            }
-        }
-
-        public HashTable(int capacity)
-        {
-            if (capacity <= 0)
-            {
-                throw new ArgumentException($"Емкость хэш-таблицы {capacity} должна быть больше 0.", nameof(capacity));
+                throw new ArgumentException($"Длинна массива хэш-таблицы {arrayLength} должна быть больше 0.", nameof(arrayLength));
             }
 
-            items = new ArrayList<T>[capacity];
+            Lists = new ArrayList<T>[arrayLength];
         }
 
         public bool IsReadOnly => true;
 
-        public void Add(T obj)
+        private int GetIndexArrayLists(T obj)
         {
-            if (Count >= items.Length - 1)
-            {
-                IncreaseCapacity();
-            }
-
-            int hashCode = Math.Abs(obj.GetHashCode() % items.Length);
-
-            if (Equals(items[hashCode], null))
-            {
-                items[hashCode] = new ArrayList<T>(capacityArrayList);
-                Count++;
-            }
-
-            items[hashCode].Add(obj);
-            modifyCount++;
+            return (obj == null) ? 0 : Math.Abs(obj.GetHashCode() % Lists.Length);
         }
 
-        private void IncreaseCapacity()
+        public void Add(T obj)
         {
-            Capacity = items.Length * 2;
+            if (obj == null)
+            {
+                return;
+            }
+
+            int indexArrayLists = GetIndexArrayLists(obj);
+
+            if (Lists[indexArrayLists] == null)
+            {
+                Lists[indexArrayLists] = new ArrayList<T>(ArrayListСapacity);
+            }
+
+            Lists[indexArrayLists].Add(obj);
+            Count++;
+            modCount++;
         }
 
         public void Clear()
         {
-            Array.Clear(items, 0, items.Length);
+            Array.Clear(Lists, 0, Lists.Length);
             Count = 0;
+            modCount++;
         }
 
         public bool Contains(T obj)
         {
-            int hashCode = Math.Abs(obj.GetHashCode() % items.Length);
+            int indexArrayLists = GetIndexArrayLists(obj);
 
-            if (Equals(items[hashCode], null))
-            {
-                return false;
-            }
-
-            return items[hashCode].Contains(obj);
+            return (Lists[indexArrayLists] == null) ? false : Lists[indexArrayLists].Contains(obj);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            if (Equals(array, null))
+            if (array == null)
             {
                 throw new ArgumentNullException(nameof(array), "Передан null массив");
             }
@@ -102,27 +81,27 @@ namespace HashTableTask
                 throw new ArgumentOutOfRangeException(nameof(array), $"Число элементов в исходной коллекции для копирования {Count} больше доступного места {array.Length - arrayIndex}");
             }
 
-            Array.Copy(items, 0, array, arrayIndex, Count);
+            Array.Copy(Lists, 0, array, arrayIndex, Count);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            int currentModifyCount = modifyCount;
+            int currentModifyCount = modCount;
 
             for (int i = 0; i < Count; i++)
             {
-                if (currentModifyCount != modifyCount)
-                {
-                    throw new InvalidOperationException("Коллекция была изменена. Операция итерации не может быть выполнена.");
-                }
-
-                if(Equals(items[i],null))
+                if (Lists[i] == null)
                 {
                     continue;
                 }
 
-                foreach (T e in items[i])
+                foreach (T e in Lists[i])
                 {
+                    if (currentModifyCount != modCount)
+                    {
+                        throw new InvalidOperationException("Коллекция была изменена. Операция итерации не может быть выполнена.");
+                    }
+
                     yield return e;
                 }
             }
@@ -130,15 +109,21 @@ namespace HashTableTask
 
         public bool Remove(T obj)
         {
-            int hashCode = Math.Abs(obj.GetHashCode() % items.Length);
+            int indexArrayLists = GetIndexArrayLists(obj);
 
-            if (Equals(items[hashCode], null))
+            if (Lists[indexArrayLists] == null)
             {
                 return false;
             }
 
-            modifyCount++;
-            return items[hashCode].Remove(obj);
+            if (Lists[indexArrayLists].Remove(obj))
+            {
+                modCount++;
+                Count--;
+                return true;
+            }
+
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -156,9 +141,9 @@ namespace HashTableTask
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
 
-            for (int i = 0; i < Count; i++)
+            for (int i = 0; i < Lists.Length; i++)
             {
-                sb.Append(items[i]).Append(", ");
+                sb.Append(Lists[i]).Append(", ");
             }
 
             return sb.Remove(sb.Length - 2, 2).Append("]").ToString();

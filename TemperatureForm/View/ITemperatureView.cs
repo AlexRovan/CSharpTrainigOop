@@ -1,6 +1,6 @@
 ﻿namespace TemperatureForm.View
 {
-    interface ITemperatureDesktopView
+    public interface ITemperatureView
     {
         void SetResultTemperature(string resultingTemperatureString, double temperature);
     }
