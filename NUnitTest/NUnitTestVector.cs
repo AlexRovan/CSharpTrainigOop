@@ -102,7 +102,7 @@ namespace NUnitTest
 
             const double result = 29;
 
-            Assert.AreEqual(Vector.GetScalarProduct(vector1, vector2), result, "{21.0,8.0}");
+            Assert.AreEqual(Vector.GetScalarProduct(vector1, vector2), result, "should be 29");
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace NUnitTest
 
             const double result = 108;
 
-            Assert.AreEqual(Vector.GetScalarProduct(vector1, vector2), result, "should be {21.0,8.0,24.0,55.0}");
+            Assert.AreEqual(Vector.GetScalarProduct(vector1, vector2), result, "should be 108");
         }
     }
 }

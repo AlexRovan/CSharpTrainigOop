@@ -18,9 +18,9 @@ namespace JsonTask
                 var countries = JsonConvert.DeserializeObject<List<Country>>(GetJsonDataCountries(region));
 
                 Console.WriteLine($"Информация о регионе: {region}");
-                Console.WriteLine($"Население: {GetPopulationCountries(countries)}");
+                Console.WriteLine($"Население: {GetRegionPopulationCount(countries)}");
 
-                var currencies = GetCurrenciesCountries(countries);
+                var currencies = GetCountriesCurrencies(countries);
 
                 Console.WriteLine("Действующие валюты:");
                 foreach (var currency in currencies)
@@ -34,14 +34,14 @@ namespace JsonTask
             }
         }
 
-        public static double GetPopulationCountries(List<Country> countries)
+        public static double GetRegionPopulationCount(List<Country> countries)
         {
             return countries.Sum(p => p.Population);
         }
 
-        public static List<Currency> GetCurrenciesCountries(List<Country> countries)
+        public static List<Currency> GetCountriesCurrencies(List<Country> countries)
         {
-            return countries.SelectMany(p => p.Currencies).Distinct(new CurrencyComparer()).ToList(); ;
+            return countries.SelectMany(p => p.Currencies).Distinct(new CurrencyComparer()).ToList();
         }
 
         public static string GetJsonDataCountries(string region)

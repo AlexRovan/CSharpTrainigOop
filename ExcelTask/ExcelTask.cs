@@ -10,6 +10,8 @@ namespace ExcelTask
     {
         private static void Main()
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
             var persons = new List<Person>
             {
                 new Person(17, "Jhon", "Magnuson", "1232-122"),
